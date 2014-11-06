@@ -16,7 +16,7 @@ RSpec.shared_examples 'queryable' do
     end
 
     it 'should create a query xml' do
-      expect(described_class.query_all).to be_xml_equal_to xml
+      expect(described_class.query).to be_xml_equal_to xml
     end
 
   end

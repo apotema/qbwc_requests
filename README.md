@@ -19,20 +19,54 @@ Or install it yourself as:
 ## Usage
 
 * Query Requisitions
+  
+  ```ruby
+    Qbwc::Request::V07::Account.query
+  ```
 
-      Qbwc::Request::V07::Account.query
+  result
 
-  That will create an Account query for the qbxml version 7.
+  ```xml
+    <?xml version='1.0' encoding='utf-8'?>
+    <?qbxml version="7.0"?>
+    <QBXML>
+      <QBXMLMsgsRq onError="stopOnError">
+        <AccountQueryRq>
+          <MaxReturned>2000</MaxReturned>
+        </AccountQueryRq>
+      </QBXMLMsgsRq>
+    </QBXML>
+  ```
+
+That will create an Account query for the qbxml version 7.0
 
 * Add Requisitions
 
+  ```ruby
     Qbwc::Request::V07::Account.new(name: 'Some Account name').add
-  
+  ```
+
+  result  
+
+  ```xml
+  <?xml version='1.0' encoding='utf-8'?>
+  <?qbxml version="7.0"?>
+  <QBXML>
+    <QBXMLMsgsRq onError="stopOnError">
+      <AccountAddRq requestID="2">
+        <AccountAdd>
+          <Name>Some Account name</Name>
+        </AccountAdd>
+      </AccountAddRq>
+    </QBXMLMsgsRq>
+  </QBXML>
+  ```
+
   That will create an account xml add requisition.
-  Note that name is mandatory in order to create an Account.
+  Note that <tt>name</tt> is mandatory in order to create an Account.
   If no name is provided, the result will be a hash of errors.
 
-  You can also call valid? on the object to see the required fields.
+  You can also call <tt>valid?</tt> on the object to see the required fields.
 
 * Delete Requisitions
 
