@@ -1,6 +1,6 @@
 # QbwcRequests
 
-With QbwcRequest you have a easy way to create Qbxml requests.
+With qbwc_requests you have an easy way to create Qbxml requests.
 
 ## Installation
 
