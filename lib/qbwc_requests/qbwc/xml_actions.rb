@@ -12,7 +12,7 @@ module Qbwc
                 }
               }
             }
-      to_xml(hash)
+      self.to_xml(hash)
     end
 
     def self.header
