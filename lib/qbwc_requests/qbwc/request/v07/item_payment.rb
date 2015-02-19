@@ -1,7 +1,7 @@
 module Qbwc 
   module Request
     module V07
-      class ItemPayment < Base
+      class ItemPayment < Qbwc::Request::Base
 
         field :name
         field :is_active

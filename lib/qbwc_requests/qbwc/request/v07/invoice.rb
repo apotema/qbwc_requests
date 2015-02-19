@@ -1,7 +1,7 @@
 module Qbwc 
   module Request
     module V07
-      class Invoice < Base
+      class Invoice < Qbwc::Request::Base
 
         field :customer_ref
         field :invoice_line_add

@@ -1,7 +1,7 @@
 module Qbwc 
   module Request
     module V07
-      class ItemSubtotal < Base
+      class ItemSubtotal < Qbwc::Request::Base
               
         field :name
         field :is_active

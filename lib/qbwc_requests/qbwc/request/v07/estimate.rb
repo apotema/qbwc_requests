@@ -1,7 +1,7 @@
 module Qbwc 
   module Request
     module V07
-      class Estimate < Base
+      class Estimate < Qbwc::Request::Base
 
         field :customer_ref
         field :estimate_line_add

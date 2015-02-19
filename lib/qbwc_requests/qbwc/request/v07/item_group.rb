@@ -1,7 +1,7 @@
 module Qbwc 
   module Request
     module V07
-      class ItemGroup < Base
+      class ItemGroup < Qbwc::Request::Base
 
         field :name
         field :is_active

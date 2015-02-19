@@ -1,7 +1,7 @@
 module Qbwc 
   module Request
     module V07
-      class ItemOtherCharge < Base
+      class ItemOtherCharge < Qbwc::Request::Base
 
         field :name
         field :is_active

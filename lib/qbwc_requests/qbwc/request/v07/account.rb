@@ -1,7 +1,7 @@
 module Qbwc 
   module Request
     module V07
-      class Account < Base
+      class Account < Qbwc::Request::Base
 
         field :name
 

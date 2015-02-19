@@ -1,7 +1,7 @@
 module Qbwc 
   module Request
     module V07
-      class PurchaseOrder < Base
+      class PurchaseOrder < Qbwc::Request::Base
 
         field :vendor_ref
         field :purchase_order_line_add
