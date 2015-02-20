@@ -7,8 +7,9 @@ module Qbwc
       include ActiveModel::Validations
       include ActiveModel::Conversion
 
-      def self.query amount = 2000
-        XmlActions.query("#{underscore self.name.demodulize}_query_rq", amount)
+      def self.query options = nil
+        options = { max_returned: 2000 } if options == nil or options.empty?
+        XmlActions.query "#{underscore self.name.demodulize}_query_rq", options
       end
       
       def add

@@ -1,14 +1,13 @@
 module Qbwc
   module XmlActions
 
-    def self.query req, max_returned
+    def self.query req, options
       hash = {"qbxml"=>
               {"xml_attributes"=>{},
                "qbxml_msgs_rq"=>
                 {"xml_attributes"=>{"onError"=>"stopOnError"},
                  "#{req}"=>
-                  {"xml_attributes"=>{},
-                    "max_returned"=> max_returned}
+                  {"xml_attributes"=>{}}.merge(options)
                 }
               }
             }
