@@ -43,6 +43,7 @@ module Qbwc
 
         def compact opts={}
           # I pass two times to avoid {v: '1',k: {}}, gotta find a better algorithm (recursive)
+          return {} if opts.nil?
           proc = Proc.new { |k, v| v.kind_of?(Hash) ? (v.delete_if(&proc); nil) : v.empty? };
           hash = opts.delete_if(&proc)
           hash.delete_if { |k, v| v.empty? }
