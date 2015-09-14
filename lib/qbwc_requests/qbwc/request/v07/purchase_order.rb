@@ -1,4 +1,4 @@
-module Qbwc 
+module Qbwc
   module Request
     module V07
       class PurchaseOrder < Qbwc::Request::Base
@@ -26,7 +26,12 @@ module Qbwc
         field :other2
         field :purchase_order_line_add
         field :purchase_order_line_group_add
-        
+
+        #MODIFICATION FIELDS
+        field :purchase_order_line_mod
+        field :txn_ID
+        field :edit_sequence
+
       end
     end
   end
