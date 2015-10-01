@@ -19,7 +19,7 @@ Or install it yourself as:
 ## Usage
 
 * Query Requisitions
-  
+
   ```ruby
     Qbwc::Request::V07::Account.query
   ```
@@ -95,7 +95,7 @@ Right now we just have the following models on this gem.
 - Invoices
 - Estimates
 
-The Qbxml version for this models is the 7.0.
+The Qbxml version for this models is the 7.0
 
 
 ## Contributing
