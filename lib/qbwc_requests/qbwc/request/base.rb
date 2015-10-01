@@ -1,4 +1,4 @@
-module Qbwc 
+module Qbwc
   module Request
     class Base
 
@@ -11,7 +11,11 @@ module Qbwc
         options = { max_returned: 2000 } if options == nil or options.empty?
         XmlActions.query "#{underscore self.name.demodulize}_query_rq", options
       end
-      
+
+      def modify
+        modify_xml
+      end
+
       def add
         self.valid? ? add_xml : self
       end
@@ -54,6 +58,16 @@ module Qbwc
           req['qbxml']['qbxml_msgs_rq']["#{class_name}_add_rq"] = {"xml_attributes"=>
               {"requestID"=>"2"},
                 "#{class_name}_add"=> self.ordered_fields
+              }
+          XmlActions.to_xml(req)
+        end
+
+
+        def modify_xml
+          req = XmlActions.header
+          req['qbxml']['qbxml_msgs_rq']["#{class_name}_mod_rq"] = {"xml_attributes"=>
+              {"requestID"=>"2"},
+                "#{class_name}_mod"=> self.ordered_fields
               }
           XmlActions.to_xml(req)
         end
