@@ -43,7 +43,7 @@ That will create an Account query for the qbxml version 7.0
 * Add Requisitions
 
   ```ruby
-    Qbwc::Request::V07::Account.new(name: 'Some Account name').add
+    Qbwc::Request::V07::Account.new(name: 'Some Account name').add("2")
   ```
 
   result  
