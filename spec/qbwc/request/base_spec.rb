@@ -8,12 +8,12 @@ class GenericBase < Qbwc::Request::Base
 end
 
 describe GenericBase do
-  
+
   describe '#initialize' do
 
     it 'should deal with nil values' do
       expect {
-        GenericBase.new(nil)  
+        GenericBase.new(nil)
       }.to_not raise_error
     end
 
@@ -35,7 +35,7 @@ describe GenericBase do
 
     it 'should not raise error for nil values' do
       expect {
-        GenericBase.new(parameters).add()
+        GenericBase.new(parameters).add("request_id")
       }.to_not raise_error
     end
 
@@ -46,13 +46,13 @@ describe GenericBase do
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">
-            <GenericBaseAddRq requestID="2">
+            <GenericBaseAddRq requestID="request_id">
               <GenericBaseAdd></GenericBaseAdd>
             </GenericBaseAddRq>
           </QBXMLMsgsRq>
         </QBXML>
       XML
-      add_xml = GenericBase.new(parameters).add()
+      add_xml = GenericBase.new(parameters).add("request_id")
       expect( add_xml ).to be_xml_equal_to expected_xml
     end
 

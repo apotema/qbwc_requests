@@ -14,7 +14,7 @@ RSpec.describe Qbwc::Request::V07::PurchaseOrder do
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">
-            <PurchaseOrderAddRq requestID="2">
+            <PurchaseOrderAddRq requestID="request_id">
               <PurchaseOrderAdd>
                 <VendorRef>
                   <FullName>Vendor full name</FullName>
@@ -29,7 +29,7 @@ RSpec.describe Qbwc::Request::V07::PurchaseOrder do
           </QBXMLMsgsRq>
         </QBXML>
       XML
-      expect( purchase_order.add ).to be_xml_equal_to xml
+      expect( purchase_order.add("request_id") ).to be_xml_equal_to xml
     end
 
   end
@@ -44,7 +44,7 @@ RSpec.describe Qbwc::Request::V07::PurchaseOrder do
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">
-            <PurchaseOrderModRq requestID="2">
+            <PurchaseOrderModRq requestID="request_id">
               <PurchaseOrderMod>
                 <VendorRef>
                   <FullName>Vendor full name</FullName>
@@ -59,7 +59,7 @@ RSpec.describe Qbwc::Request::V07::PurchaseOrder do
           </QBXMLMsgsRq>
         </QBXML>
       XML
-      expect( purchase_order.modify ).to be_xml_equal_to xml
+      expect( purchase_order.modify("request_id") ).to be_xml_equal_to xml
     end
 
 

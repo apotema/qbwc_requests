@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Qbwc::Request::V07::ItemGroup do
-  
+
   it_behaves_like 'queryable'
 
   it{ is_expected.to validate_field_presence_of :name }
@@ -15,7 +15,7 @@ describe Qbwc::Request::V07::ItemGroup do
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">
-            <ItemGroupAddRq requestID="2">
+            <ItemGroupAddRq requestID="request_id">
               <ItemGroupAdd>
                 <Name>Group item name</Name>
               </ItemGroupAdd>
@@ -23,7 +23,7 @@ describe Qbwc::Request::V07::ItemGroup do
           </QBXMLMsgsRq>
         </QBXML>
        XML
-      expect( item.add ).to be_xml_equal_to xml
+      expect( item.add("request_id") ).to be_xml_equal_to xml
     end
 
   end
