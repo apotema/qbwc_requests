@@ -1,4 +1,4 @@
-# QbwcRequests
+# Qbwc Requests
 
 With qbwc_requests you have an easy way to create Qbxml requests.
 
