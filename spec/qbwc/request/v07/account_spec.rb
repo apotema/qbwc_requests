@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Qbwc::Request::V07::Account do
-  
+
   it_behaves_like 'queryable'
 
   it { is_expected.to validate_field_presence_of :name }
@@ -16,7 +16,7 @@ RSpec.describe Qbwc::Request::V07::Account do
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">
-            <AccountAddRq requestID="2">
+            <AccountAddRq requestID="request_id">
               <AccountAdd>
                 <Name>a</Name>
               </AccountAdd>
@@ -24,7 +24,7 @@ RSpec.describe Qbwc::Request::V07::Account do
           </QBXMLMsgsRq>
         </QBXML>
       XML
-      expect( account.add ).to be_xml_equal_to xml
+      expect( account.add("request_id") ).to be_xml_equal_to xml
     end
 
   end

@@ -7,17 +7,17 @@ module Qbwc
       include ActiveModel::Validations
       include ActiveModel::Conversion
 
-      def self.query options = nil
+      def self.query options = nil, header = nil
         options = { max_returned: 2000 } if options == nil or options.empty?
-        XmlActions.query "#{underscore self.name.demodulize}_query_rq", options
+        XmlActions.query "#{underscore self.name.demodulize}_query_rq", options, header
       end
 
-      def modify
-        modify_xml
+      def modify request_id
+        modify_xml request_id
       end
 
-      def add
-        self.valid? ? add_xml : self
+      def add request_id
+        self.valid? ? add_xml(request_id) : self
       end
 
       def initialize(attributes = {})
@@ -53,20 +53,20 @@ module Qbwc
           hash.delete_if { |k, v| (v == nil || (v.respond_to?(:empty) && v.empty?)) }
         end
 
-        def add_xml
+        def add_xml request_id
           req = XmlActions.header
           req['qbxml']['qbxml_msgs_rq']["#{class_name}_add_rq"] = {"xml_attributes"=>
-              {"requestID"=>"2"},
+              {"requestID"=>"#{request_id}"},
                 "#{class_name}_add"=> self.ordered_fields
               }
           XmlActions.to_xml(req)
         end
 
 
-        def modify_xml
+        def modify_xml request_id
           req = XmlActions.header
           req['qbxml']['qbxml_msgs_rq']["#{class_name}_mod_rq"] = {"xml_attributes"=>
-              {"requestID"=>"2"},
+              {"requestID"=>"#{request_id}"},
                 "#{class_name}_mod"=> self.ordered_fields
               }
           XmlActions.to_xml(req)

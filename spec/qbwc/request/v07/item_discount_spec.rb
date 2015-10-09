@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Qbwc::Request::V07::ItemDiscount do
-  
+
   it_behaves_like 'queryable'
 
   it{ is_expected.to validate_field_presence_of :name }
@@ -13,10 +13,10 @@ describe Qbwc::Request::V07::ItemDiscount do
     it "should create an add Discount Item xml" do
       xml = <<-XML
         <?xml version='1.0' encoding='utf-8'?>
-        <?qbxml version=\"7.0\"?>
+        <?qbxml version="7.0"?>
         <QBXML>
-          <QBXMLMsgsRq onError=\"stopOnError\">
-            <ItemDiscountAddRq requestID=\"2\">
+          <QBXMLMsgsRq onError="stopOnError">
+            <ItemDiscountAddRq requestID="request_id">
               <ItemDiscountAdd>
                 <Name>discount item name</Name>
               </ItemDiscountAdd>
@@ -24,7 +24,7 @@ describe Qbwc::Request::V07::ItemDiscount do
           </QBXMLMsgsRq>
         </QBXML>
       XML
-      expect( item_discount.add ).to be_xml_equal_to xml
+      expect( item_discount.add("request_id") ).to be_xml_equal_to xml
     end
 
   end

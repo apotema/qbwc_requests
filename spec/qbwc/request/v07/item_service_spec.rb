@@ -5,7 +5,7 @@ describe Qbwc::Request::V07::ItemService do
   it_behaves_like 'queryable'
 
   it { is_expected.to validate_field_presence_of :name }
-  
+
   describe "add" do
 
     let(:item) {Qbwc::Request::V07::ItemService.new(name: 'Service item name')}
@@ -16,7 +16,7 @@ describe Qbwc::Request::V07::ItemService do
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">
-            <ItemServiceAddRq requestID="2">
+            <ItemServiceAddRq requestID="request_id">
               <ItemServiceAdd>
                 <Name>Service item name</Name>
               </ItemServiceAdd>
@@ -24,7 +24,7 @@ describe Qbwc::Request::V07::ItemService do
           </QBXMLMsgsRq>
         </QBXML>
       XML
-      expect( item.add ).to be_xml_equal_to xml
+      expect( item.add("request_id") ).to be_xml_equal_to xml
     end
 
   end

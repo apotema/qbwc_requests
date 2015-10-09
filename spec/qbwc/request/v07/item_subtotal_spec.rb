@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Qbwc::Request::V07::ItemSubtotal do
-  
+
   it_behaves_like 'queryable'
 
   it { is_expected.to validate_field_presence_of :name }
@@ -12,12 +12,12 @@ describe Qbwc::Request::V07::ItemSubtotal do
     let(:item_with_bar_code) { Qbwc::Request::V07::ItemSubtotal.new(name: 'Subtotal item name', bar_code: { bar_code_value: 'some bar code value' } ) }
 
     it "should create an add Item Subtotal xml" do
-      xml = <<-XML 
+      xml = <<-XML
         <?xml version='1.0' encoding='utf-8'?>
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">
-            <ItemSubtotalAddRq requestID="2">
+            <ItemSubtotalAddRq requestID="request_id">
               <ItemSubtotalAdd>
                 <Name>Subtotal item name</Name>
               </ItemSubtotalAdd>
@@ -25,7 +25,7 @@ describe Qbwc::Request::V07::ItemSubtotal do
           </QBXMLMsgsRq>
         </QBXML>
       XML
-      expect( item.add ).to be_xml_equal_to xml
+      expect( item.add("request_id") ).to be_xml_equal_to xml
     end
 
     it "should create an add Item Subtotal with the bar_code" do
@@ -34,7 +34,7 @@ describe Qbwc::Request::V07::ItemSubtotal do
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">
-            <ItemSubtotalAddRq requestID="2">
+            <ItemSubtotalAddRq requestID="request_id">
               <ItemSubtotalAdd>
                 <Name>Subtotal item name</Name>
                 <BarCode>
@@ -45,7 +45,7 @@ describe Qbwc::Request::V07::ItemSubtotal do
           </QBXMLMsgsRq>
         </QBXML>
       XML
-      expect( item_with_bar_code.add ).to be_xml_equal_to xml
+      expect( item_with_bar_code.add("request_id") ).to be_xml_equal_to xml
     end
 
   end

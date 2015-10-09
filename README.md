@@ -1,6 +1,8 @@
-# QbwcRequests
+# Qbwc Requests
 
 With qbwc_requests you have an easy way to create Qbxml requests.
+
+[![Build Status](https://semaphoreci.com/api/v1/projects/c357ba42-3d3e-4061-985e-6c3c9c68a9b4/557601/badge.svg)](https://semaphoreci.com/apotema/qbwc_requests)
 
 ## Installation
 
@@ -19,7 +21,7 @@ Or install it yourself as:
 ## Usage
 
 * Query Requisitions
-  
+
   ```ruby
     Qbwc::Request::V07::Account.query
   ```
@@ -43,7 +45,7 @@ That will create an Account query for the qbxml version 7.0
 * Add Requisitions
 
   ```ruby
-    Qbwc::Request::V07::Account.new(name: 'Some Account name').add
+    Qbwc::Request::V07::Account.new(name: 'Some Account name').add("2")
   ```
 
   result  
@@ -95,7 +97,7 @@ Right now we just have the following models on this gem.
 - Invoices
 - Estimates
 
-The Qbxml version for this models is the 7.0.
+The Qbxml version for this models is the 7.0
 
 
 ## Contributing
