@@ -45,7 +45,6 @@ module Qbwc
     private
 
     def validate_ordered_field(parent_attribute, value)
-      binding.pry
       if value.invalid?
         value.errors.each do |attribute, error|
           errors.add(composite_attribute_name(parent_attribute, attribute), error)
