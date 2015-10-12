@@ -31,5 +31,29 @@ module Qbwc
       new_hash
     end
 
+    def validate_ordered_fields
+      for attribute in self.class.attr_order
+        value = send(attribute)
+        if value.present?
+          if value.respond_to?(:ordered_fields)
+            validate_ordered_field(attribute, value)
+          end
+        end
+      end
+    end
+
+    private
+
+    def validate_ordered_field(parent_attribute, value)
+      if value.invalid?
+        value.errors.each do |attribute, error|
+          errors.add(composite_attribute_name(parent_attribute, attribute), error)
+        end
+      end
+    end
+
+    def composite_attribute_name(parent_attribute, attribute)
+      "#{parent_attribute}_#{attribute}".to_sym
+    end
   end
 end
