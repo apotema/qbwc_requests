@@ -3,11 +3,6 @@ module Qbwc
     class Base
 
       include Qbwc::OrderedFields
-      extend ActiveModel::Naming
-      include ActiveModel::Validations
-      include ActiveModel::Conversion
-
-      validate :validate_ordered_fields
 
       def self.query options = nil, header = nil
         options = { max_returned: 2000 } if options == nil or options.empty?

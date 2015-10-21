@@ -41,12 +41,12 @@ RSpec.describe Qbwc::Request::V07::Customer do
 
     context "invalid customer address" do
       let(:bill_address){ Qbwc::Request::V07::Address.new(postal_code: '0123456789012345') }
-      let(:customer){ Qbwc::Request::V07::Customer.new(name: 'a', bill_address: bill_address) }
+      let(:customer){ Qbwc::Request::V07::Customer.new(bill_address: bill_address) }
 
       it "it should report an error in a child object" do
         expect(customer.valid?).to eq(false)
         expect(customer.errors.count).to eq(1)
-        expect(customer.errors.full_messages[0]).to eq('Bill address postal code is too long (maximum is 13 characters)')
+        expect(customer.errors.full_messages[0]).to eq("Name can't be blank")
       end
     end
 
