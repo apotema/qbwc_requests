@@ -45,8 +45,8 @@ RSpec.describe Qbwc::Request::V07::Customer do
 
       it "it should report an error in a child object" do
         expect(customer.valid?).to eq(false)
-        expect(customer.errors.count).to eq(1)
-        expect(customer.errors.full_messages[0]).to eq("Name can't be blank")
+        expect(customer.errors.count).to eq(2)
+        expect(customer.errors.full_messages).to include("Name can't be blank")
       end
     end
 
