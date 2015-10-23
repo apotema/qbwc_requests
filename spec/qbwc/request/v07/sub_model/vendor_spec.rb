@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Qbwc::Request::V07::Reference::Vendor do
+RSpec.describe Qbwc::Request::V07::SubModel::Vendor do
 
   it "should validate the presence of the ListID or the full name" do
 

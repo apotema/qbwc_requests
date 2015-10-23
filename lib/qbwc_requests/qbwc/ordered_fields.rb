@@ -7,10 +7,13 @@ module Qbwc
         @attr_order << attribute_name
         attr_accessor attribute_name
       end
-      def has_one attribute_name
+      def has_one attribute_name, klass
         @attr_order ||= Set.new
         @attr_order << attribute_name
         attr_accessor attribute_name
+        self.validates_each attribute_name do |record, attribute, value|
+          record.errors.add(attribute, "must be of type #{klass}") unless value.class == klass
+        end
       end
       def attr_order
         @attr_order

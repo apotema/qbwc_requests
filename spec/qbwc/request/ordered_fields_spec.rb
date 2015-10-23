@@ -30,19 +30,18 @@ describe Qbwc::OrderedFields do
     class SubModel
       include Qbwc::OrderedFields
       field :name
-      has_one :sub_mode
       validates :name, presence: true
     end
 
     before(:each) do
-      OrderedFieldsImpl.has_one(:sub_mode)
-      @sub_mode = SubModel.new
+      OrderedFieldsImpl.has_one(:sub_model, SubModel)
+      @sub_model = SubModel.new
       @of = OrderedFieldsImpl.new
-      @of.sub_mode = @sub_mode
+      @of.sub_model = @sub_model
     end
 
     it "should add the class as a field" do
-      expect(@of.sub_mode).to be @sub_mode
+      expect(@of.sub_model).to be @sub_model
     end
 
     it "should validate the nested class" do
@@ -56,7 +55,17 @@ describe Qbwc::OrderedFields do
 
     it "should have the the nested class list of errors" do
       @of.valid?
-      expect(@of.errors.full_messages).to include("Sub mode#name [\"can't be blank\"]")
+      expect(@of.errors.full_messages).to include("Sub model#name [\"can't be blank\"]")
+    end
+
+    it "validate the field class" do
+      class InvalidModel
+      end
+      @of.sub_model = InvalidModel.new
+      @of.valid?
+      expect(@of.errors.full_messages).to(
+        include("Sub model must be of type SubModel")
+      )
     end
 
   end
