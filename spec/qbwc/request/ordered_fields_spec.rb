@@ -80,7 +80,7 @@ describe Qbwc::OrderedFields do
 
   describe '#ref_to' do
 
-    before { OrderedFieldsImpl.ref_to :field }
+    before { OrderedFieldsImpl.ref_to :field, 40 }
 
     it 'should create a the accessor to the field with the _ref sufix' do
       expect(OrderedFieldsImpl.new).to respond_to(:field_ref)
@@ -113,6 +113,15 @@ describe Qbwc::OrderedFields do
       ordered_fields = OrderedFieldsImpl.new
       ordered_fields.field_ref = {list_id: "10"}
       expect(ordered_fields.valid?).to be true
+    end
+
+    it 'should validate the length of the full_name' do
+      ordered_fields = OrderedFieldsImpl.new
+      ordered_fields.field_ref = {full_name: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"}
+      expect(ordered_fields.valid?).to be false
+      expect(ordered_fields.errors.full_messages).to(
+        include "Field ref - maximum 'full name' length is: 40"
+      )
     end
 
   end

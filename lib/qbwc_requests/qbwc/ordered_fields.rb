@@ -17,7 +17,7 @@ module Qbwc
           end
         end
       end
-      def ref_to attribute_prefix
+      def ref_to attribute_prefix, name_length
         attribute_name = "#{attribute_prefix}_ref".to_sym
         @attr_order ||= Set.new
         @attr_order << attribute_name
@@ -27,6 +27,8 @@ module Qbwc
             if value.is_a?(Hash)
               if !(value[:list_id].present? ^ value[:full_name].present?)
                 record.errors.add(attribute, "Must have list_id or full_name")
+              elsif value.fetch(:full_name, "").length > name_length
+                record.errors.add(attribute, "- maximum 'full name' length is: #{name_length}")
               end
             else
               record.errors.add(attribute, "Must have the format {list_id: 'value'} or {full_name: 'value'}")
