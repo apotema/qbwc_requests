@@ -11,8 +11,27 @@ module Qbwc
         @attr_order ||= Set.new
         @attr_order << attribute_name
         attr_accessor attribute_name
-        self.validates_each attribute_name do |record, attribute, value|
-          record.errors.add(attribute, "must be of type #{klass}") unless value.class == klass
+        validates_each attribute_name do |record, attribute, value|
+          if !value.blank? and value.class != klass
+            record.errors.add(attribute, "must be of type #{klass}") 
+          end
+        end
+      end
+      def ref_to attribute_prefix
+        attribute_name = "#{attribute_prefix}_ref".to_sym
+        @attr_order ||= Set.new
+        @attr_order << attribute_name
+        attr_accessor attribute_name
+        validates_each attribute_name do |record, attribute, value|
+          if value.present? 
+            if value.is_a?(Hash)
+              if !(value[:list_id].present? ^ value[:full_name].present?)
+                record.errors.add(attribute, "Must have list_id or full_name")
+              end
+            else
+              record.errors.add(attribute, "Must have the format {list_id: 'value'} or {full_name: 'value'}")
+            end
+          end
         end
       end
       def attr_order

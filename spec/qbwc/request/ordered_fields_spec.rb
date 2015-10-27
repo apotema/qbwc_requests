@@ -68,6 +68,53 @@ describe Qbwc::OrderedFields do
       )
     end
 
+    it "should not validate if the field is empty" do
+      @of.sub_model = nil
+      @of.valid?
+      expect(@of.errors.full_messages).to_not(
+        include("Sub model must be of type SubModel")
+      )
+    end
+
+  end
+
+  describe '#ref_to' do
+
+    before { OrderedFieldsImpl.ref_to :field }
+
+    it 'should create a the accessor to the field with the _ref sufix' do
+      expect(OrderedFieldsImpl.new).to respond_to(:field_ref)
+      expect(OrderedFieldsImpl.new).to respond_to(:field_ref=)
+    end
+
+    it 'should add the field to attr_order list' do
+      expect(OrderedFieldsImpl.attr_order).to include :field_ref
+    end
+
+    it 'should validate the presece of only list_id or full_name' do
+      ordered_fields = OrderedFieldsImpl.new
+      ordered_fields.field_ref = "invalid_string"
+      expect(ordered_fields.valid?).to be false
+      expect(ordered_fields.errors.full_messages).to(
+        include "Field ref Must have the format {list_id: 'value'} or {full_name: 'value'}"
+      )
+    end
+
+    it 'should only accept LIST_ID or FULL_NAME not both' do
+      ordered_fields = OrderedFieldsImpl.new
+      ordered_fields.field_ref = {list_id: "10", full_name: "Full name"}
+      expect(ordered_fields.valid?).to be false
+      expect(ordered_fields.errors.full_messages).to(
+        include "Field ref Must have list_id or full_name"
+      )
+    end
+
+    it 'should only accept LIST_ID or FULL_NAME not both' do
+      ordered_fields = OrderedFieldsImpl.new
+      ordered_fields.field_ref = {list_id: "10"}
+      expect(ordered_fields.valid?).to be true
+    end
+
   end
 
   describe '#ordered_fields' do
