@@ -2,7 +2,7 @@ module Qbwc
   module Request
     module V07
       class Bill < Qbwc::Request::Base
-        field :vendor_ref        
+        ref_to :vendor, 41
       end
     end
   end

@@ -3,25 +3,25 @@ module Qbwc
     module V07
       class PurchaseOrder < Qbwc::Request::Base
 
-        field :vendor_ref
-        field :class_ref
-        field :ship_to_entity_ref
-        field :template_ref
+        ref_to :vendor, 41
+        ref_to :class, 159
+        ref_to :ship_to_entity, 209
+        ref_to :template, 31
         field :txn_date
         field :ref_number
         field :vendor_address
         field :ship_address
-        field :terms_ref
+        ref_to :terms, 31
         field :due_date
         field :expected_date
-        field :ship_method_ref
+        ref_to :ship_method, 15
         field :FOB
         field :memo
         field :vendor_msg
         field :is_to_be_printed
         field :is_to_be_emailed
         field :is_tax_included
-        field :sales_tax_code_ref
+        ref_to :sales_tax_code, 3 
         field :other1
         field :other2
         field :purchase_order_line_add

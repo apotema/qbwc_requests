@@ -6,7 +6,7 @@ RSpec.describe Qbwc::Request::V07::Bill do
 
   describe "add" do
 
-    let(:bill){ Qbwc::Request::V07::Bill.new() }
+    let(:bill){ Qbwc::Request::V07::Bill.new(vendor_ref: {list_id: 10}) }
 
     it "should create an add bill xml" do
       xml = <<-XML
@@ -16,6 +16,9 @@ RSpec.describe Qbwc::Request::V07::Bill do
           <QBXMLMsgsRq onError="stopOnError">
             <BillAddRq requestID="request_id">
               <BillAdd>
+                <VendorRef>
+                  <ListID>10</ListID>
+                </VendorRef>
               </BillAdd>
             </BillAddRq>
           </QBXMLMsgsRq>

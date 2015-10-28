@@ -6,7 +6,7 @@ module Qbwc
         field :name
         field :is_active
         field :pricetype
-        field :parent_ref
+        ref_to :parent, 1000
 
         validates :name, presence: true
       end

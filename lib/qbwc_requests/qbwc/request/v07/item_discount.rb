@@ -5,7 +5,7 @@ module Qbwc
 
         field :name
         field :is_active
-        field :account_ref
+        ref_to :account, 159
         field :discount_rate
 
         validates :name, presence: true

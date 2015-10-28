@@ -9,7 +9,14 @@ RSpec.describe Qbwc::Request::V07::Estimate do
 
   describe "add" do
 
-    let(:estimate){ Qbwc::Request::V07::Estimate.new(customer_ref: {full_name: 'Some customer name'}, estimate_line_add: {item_ref: {full_name: 'Some intem name'}}) }
+    let(:estimate){ 
+      Qbwc::Request::V07::Estimate.new(
+        customer_ref: {full_name: 'Some customer name'},
+        estimate_line_add: {
+          item_ref: {full_name: 'Some intem name'}
+        }
+      )
+    }
 
     it "should create an add estimate xml" do
       xml = <<-XML

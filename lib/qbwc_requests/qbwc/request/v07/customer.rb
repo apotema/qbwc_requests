@@ -5,7 +5,7 @@ module Qbwc
 
         field :name
         field :is_active
-        field :parent_ref
+        ref_to :parent, 1000
         field :company_name
         field :salutation
         field :first_name

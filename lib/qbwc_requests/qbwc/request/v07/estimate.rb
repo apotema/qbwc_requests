@@ -3,7 +3,7 @@ module Qbwc
     module V07
       class Estimate < Qbwc::Request::Base
 
-        field :customer_ref
+        ref_to :customer, 209
         field :estimate_line_add
 
         validates :customer_ref, presence: true
