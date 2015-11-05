@@ -13,7 +13,7 @@ describe Qbwc::Request::V07::ItemSubtotal do
 
     it "should create an add Item Subtotal xml" do
       xml = <<-XML
-        <?xml version='1.0' encoding='utf-8'?>
+        <?xml version="1.0" encoding="ISO-8859-1"?>
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">
@@ -30,7 +30,7 @@ describe Qbwc::Request::V07::ItemSubtotal do
 
     it "should create an add Item Subtotal with the bar_code" do
       xml = <<-XML
-        <?xml version='1.0' encoding='utf-8'?>
+        <?xml version="1.0" encoding="ISO-8859-1"?>
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">

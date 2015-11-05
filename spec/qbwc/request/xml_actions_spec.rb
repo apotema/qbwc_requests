@@ -10,7 +10,7 @@ describe Qbwc::XmlActions do
     it 'should generate a xml with just the filled fields' do
       query_xml = GenericBase.query(nil, {"requestID" => "request_id" })
       expected_xml = <<-XML
-      <?xml version='1.0' encoding='utf-8'?>
+      <?xml version="1.0" encoding="ISO-8859-1"?>
       <?qbxml version="7.0"?>
       <QBXML>
         <QBXMLMsgsRq onError="stopOnError">

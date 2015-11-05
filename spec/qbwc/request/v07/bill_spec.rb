@@ -10,7 +10,7 @@ RSpec.describe Qbwc::Request::V07::Bill do
 
     it "should create an add bill xml" do
       xml = <<-XML
-        <?xml version='1.0' encoding='utf-8'?>
+        <?xml version="1.0" encoding="ISO-8859-1"?>
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">

@@ -4,7 +4,8 @@ RSpec.shared_examples 'queryable' do
     
     let(:xml) do
       <<-XML
-        <?xml version='1.0' encoding='utf-8'?><?qbxml version="7.0"?>
+        <?xml version="1.0" encoding="ISO-8859-1"?>
+        <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">
             <#{described_class.name.demodulize}QueryRq>

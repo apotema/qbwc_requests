@@ -10,7 +10,7 @@ RSpec.describe Qbwc::Request::V07::PurchaseOrder do
 
     it "should create an add purchase order xml" do
       xml = <<-XML
-        <?xml version='1.0' encoding='utf-8'?>
+        <?xml version="1.0" encoding="ISO-8859-1"?>
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">
@@ -40,7 +40,7 @@ RSpec.describe Qbwc::Request::V07::PurchaseOrder do
 
     it "should create an add purchase order xml" do
       xml = <<-XML
-        <?xml version='1.0' encoding='utf-8'?>
+        <?xml version="1.0" encoding="ISO-8859-1"?>
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">

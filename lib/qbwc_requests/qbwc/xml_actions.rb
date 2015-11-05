@@ -31,7 +31,7 @@ module Qbwc
     end
 
     def self.to_xml hash
-      "<?xml version='1.0' encoding='utf-8'?>#{Qbxml.new.to_qbxml(hash)}"
+      Qbxml.new.to_qbxml(hash)
     end
 
   end

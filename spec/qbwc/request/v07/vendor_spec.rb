@@ -12,7 +12,7 @@ RSpec.describe Qbwc::Request::V07::Vendor do
 
     it "should create an add vendor xml" do
       xml = <<-XML
-        <?xml version='1.0' encoding='utf-8'?>
+        <?xml version="1.0" encoding="ISO-8859-1"?>
         <?qbxml version="7.0"?>
         <QBXML>
           <QBXMLMsgsRq onError="stopOnError">
