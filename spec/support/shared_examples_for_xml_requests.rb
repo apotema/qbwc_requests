@@ -1,9 +1,9 @@
-RSpec.shared_examples 'queryable' do
+RSpec.shared_examples 'queryable' do |version| 
     
   let(:xml) do
     <<-XML
       <?xml version="1.0" encoding="ISO-8859-1"?>
-      <?qbxml version="7.0"?>
+      <?qbxml version="#{version ? version : '7.0'}"?>
       <QBXML>
         <QBXMLMsgsRq onError="stopOnError">
           <#{described_class.name.demodulize}QueryRq>

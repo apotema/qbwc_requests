@@ -6,7 +6,8 @@ module Qbwc
 
       def self.query options = nil, header = nil
         options = { max_returned: 2000 } if options == nil or options.empty?
-        XmlActions.query "#{underscore self.name.demodulize}_query_rq", options, header
+        hash = XmlActions.query "#{underscore self.name.demodulize}_query_rq", options, header
+        self.qbxml(hash)
       end
 
       def modify request_id
@@ -22,6 +23,10 @@ module Qbwc
         @attributes.each do |name, value|
           self.instance_variable_set("@#{name}", value) if value.present?
         end
+      end
+
+      def self.qbxml hash
+        Qbxml.new.to_qbxml(hash)
       end
 
       def class_name
@@ -56,7 +61,7 @@ module Qbwc
               {"requestID"=>"#{request_id}"},
                 "#{class_name}_add"=> self.ordered_fields
               }
-          XmlActions.to_xml(req)
+          self.class.qbxml(req)
         end
 
 
@@ -66,7 +71,7 @@ module Qbwc
               {"requestID"=>"#{request_id}"},
                 "#{class_name}_mod"=> self.ordered_fields
               }
-          XmlActions.to_xml(req)
+          self.class.qbxml(req)
         end
 
     end

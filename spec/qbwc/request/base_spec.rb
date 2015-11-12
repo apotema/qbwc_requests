@@ -19,7 +19,6 @@ describe GenericBase do
 
   end
 
-
   describe '#add' do
 
     let(:parameters) {

@@ -11,7 +11,6 @@ module Qbwc
                 }
               }
             }
-      self.to_xml(hash)
     end
 
     def self.header_attributes attributes = {}
@@ -28,10 +27,6 @@ module Qbwc
           {"xml_attributes"=>{"onError"=>"stopOnError"}}
         }
       }
-    end
-
-    def self.to_xml hash
-      Qbxml.new.to_qbxml(hash)
     end
 
   end
