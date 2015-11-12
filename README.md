@@ -6,6 +6,8 @@ With qbwc_requests you have an easy way to create Qbxml requests.
 
 [![Code Climate](https://codeclimate.com/github/apotema/qbwc_requests/badges/gpa.svg)](https://codeclimate.com/github/apotema/qbwc_requests)
 
+[![Test Coverage](https://codeclimate.com/github/apotema/qbwc_requests/badges/coverage.svg)](https://codeclimate.com/github/apotema/qbwc_requests/coverage)
+
 ## Installation
 
 Add this line to your application's Gemfile:
