@@ -3,9 +3,7 @@
 With qbwc_requests you have an easy way to create Qbxml requests.
 
 [![Build Status](https://semaphoreci.com/api/v1/projects/c357ba42-3d3e-4061-985e-6c3c9c68a9b4/557601/badge.svg)](https://semaphoreci.com/apotema/qbwc_requests)
-
 [![Code Climate](https://codeclimate.com/github/apotema/qbwc_requests/badges/gpa.svg)](https://codeclimate.com/github/apotema/qbwc_requests)
-
 [![Test Coverage](https://codeclimate.com/github/apotema/qbwc_requests/badges/coverage.svg)](https://codeclimate.com/github/apotema/qbwc_requests/coverage)
 
 ## Installation
