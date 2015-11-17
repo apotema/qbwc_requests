@@ -1,8 +1,9 @@
 module VendorQbxml
   class Modify
 
-    def initialize params = {}
-      VendorQbxml::(QbwcRequest.version)::Modify.new(params)
+    def self.factory params = {}
+      object = Object.const_get("VendorQbxml::V#{QbwcRequests.QBXML_VERSION}::Modify")
+      object.new(params)
     end
 
   end

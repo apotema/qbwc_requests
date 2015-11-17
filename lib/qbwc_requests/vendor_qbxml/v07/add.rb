@@ -1,6 +1,6 @@
 module VendorQbxml
   module V07
-    class Add < QbwcRequests::Add
+    class Add < QbwcRequests::Base
 
       field :name
       field :is_active

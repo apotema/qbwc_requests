@@ -9,11 +9,7 @@ module QbwcRequests
       self.qbxml(hash)
     end
 
-    def modify request_id
-      modify_xml request_id
-    end
-
-    def add request_id
+    def to_xml request_id
       self.valid? ? add_xml(request_id) : self
     end
 
