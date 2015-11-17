@@ -9,7 +9,9 @@ RSpec::Matchers.define :be_xml_equal_to do |expected|
   end
 
   failure_message do |actual|
-    "expected that: \n#{clean(actual)} to be the same xml as \n#{clean(expected)}"
+    "EXPECTED: \n#{clean(expected).colorize(:green)} 
+    \nFOUND: \n#{clean(actual).colorize(:red)}
+    "
   end
 
 end

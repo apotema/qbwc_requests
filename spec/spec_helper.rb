@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'colorize'
 require 'bundler/setup'
 require 'i18n'
 

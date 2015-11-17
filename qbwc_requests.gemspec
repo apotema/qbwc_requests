@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "qbxml", "~> 0.3.0"
   spec.add_runtime_dependency "activemodel"
+  spec.add_development_dependency "colorize"
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake", "~> 10.3"
 end
