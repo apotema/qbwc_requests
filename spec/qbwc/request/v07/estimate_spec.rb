@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Qbwc::Request::V07::Estimate do
 
-  it_behaves_like 'queryable'
+  # it_behaves_like 'queryable'
 
   it{ is_expected.to validate_field_presence_of :customer_ref }
   it{ is_expected.to validate_field_presence_of :estimate_line_add }

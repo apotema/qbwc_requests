@@ -42,6 +42,7 @@ module QbwcRequests
 
     class SubModelsValidator < ActiveModel::Validator
       def validate record
+        return true if record.class.attr_order.blank?
         for field in record.class.attr_order
           value = record.send(field)
           if value.respond_to?(:valid?) and value.invalid?
@@ -62,6 +63,7 @@ module QbwcRequests
     end
     
     def ordered_fields
+      return true if self.class.attr_order.blank?
       new_hash = {}
       for attribute in self.class.attr_order
         value = send(attribute)

@@ -2,8 +2,6 @@ require "active_model"
 require "qbwc_requests/version"
 require "qbwc_requests/ordered_fields"
 require "qbwc_requests/base"
-require "qbwc_requests/V13/base"
-require "qbwc_requests/V13/add"
 
 require "qbxml"
 

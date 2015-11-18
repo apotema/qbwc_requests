@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Qbwc::Request::V07::ItemOtherCharge do
 
-  it_behaves_like 'queryable'
+  # it_behaves_like 'queryable'
 
   it{ is_expected.to validate_field_presence_of :name }
   it{ is_expected.to validate_field_presence_of :sales_or_purchase }

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Qbwc::Request::V07::ItemGroup do
 
-  it_behaves_like 'queryable'
+  # it_behaves_like 'queryable'
 
   it{ is_expected.to validate_field_presence_of :name }
 

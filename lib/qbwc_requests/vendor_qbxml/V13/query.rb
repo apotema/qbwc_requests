@@ -1,5 +1,5 @@
 module VendorQbxml
-  module V07
+  module V13
     class Query < QbwcRequests::Base
       field :max_returned
     end

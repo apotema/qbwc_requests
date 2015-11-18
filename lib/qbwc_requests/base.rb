@@ -3,14 +3,8 @@ module QbwcRequests
 
     include QbwcRequests::OrderedFields
 
-    def self.query options = nil, header = nil
-      options = { max_returned: 2000 } if options == nil or options.empty?
-      hash = XmlActions.query "#{underscore self.name.demodulize}_query_rq", options, header
-      self.qbxml(hash)
-    end
-
     def to_xml request_id
-      self.valid? ? add_xml(request_id) : self
+      self.valid? ? xml(request_id, self.class.name.demodulize) : self
     end
 
     def initialize(attributes = {})
@@ -21,11 +15,15 @@ module QbwcRequests
     end
 
     def self.qbxml hash
-      Qbxml.new.to_qbxml(hash)
+      Qbxml.new(:qb, "#{version.to_i}.0").to_qbxml(hash)
     end
 
     def class_name
       self.class.underscore(self.class.name.split("::").first.gsub("Qbxml",""))
+    end
+
+    def self.version
+      self.name.split("::")[1].gsub("V","")
     end
 
     def persisted?
@@ -50,22 +48,26 @@ module QbwcRequests
         hash.delete_if { |k, v| (v == nil || (v.respond_to?(:empty) && v.empty?)) }
       end
 
-      def add_xml request_id
+      def xml request_id, action
         req = XmlActions.header
-        req['qbxml']['qbxml_msgs_rq']["#{class_name}_add_rq"] = {"xml_attributes"=>
-            {"requestID"=>"#{request_id}"},
-              "#{class_name}_add"=> self.ordered_fields
-            }
-        self.class.qbxml(req)
-      end
-
-
-      def modify_xml request_id
-        req = XmlActions.header
-        req['qbxml']['qbxml_msgs_rq']["#{class_name}_mod_rq"] = {"xml_attributes"=>
-            {"requestID"=>"#{request_id}"},
-              "#{class_name}_mod"=> self.ordered_fields
-            }
+        if action != "Query"
+          req['qbxml']['qbxml_msgs_rq']["#{class_name}_#{action}_rq"] = {"xml_attributes"=>
+              {"requestID"=>"#{request_id}"},
+                "#{class_name}_#{action}"=> self.ordered_fields
+              }  
+        else
+          req['qbxml']= {
+            'qbxml_msgs_rq' => { 
+              "xml_attributes" => {
+                "onError"=>"stopOnError"
+              }, 
+              "#{class_name}_query_rq" => { 
+                "xml_attributes" => {
+                  "requestID" => "#{request_id}"} 
+                }.merge(self.ordered_fields) 
+            } 
+          }
+        end
         self.class.qbxml(req)
       end
 

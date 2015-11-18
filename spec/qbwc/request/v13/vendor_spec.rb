@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Qbwc::Request::V13::Vendor do
 
-  it_behaves_like 'queryable', "13.0"
+  # it_behaves_like 'queryable', "13.0"
 
   it { is_expected.to validate_field_presence_of :name }
 

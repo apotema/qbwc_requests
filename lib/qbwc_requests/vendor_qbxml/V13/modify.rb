@@ -1,6 +1,6 @@
 module VendorQbxml
   module V13
-    class Add < QbwcRequests::Base
+    class Modify < QbwcRequests::Base
 
       field :name
       field :is_active
@@ -22,7 +22,7 @@ module VendorQbxml
       field :is_vendor_eligible_for_1099
       field :open_balance
 
-      validates :name, presence: true, length: { maximum: 41 }
+      validates :name, length: { maximum: 41 }
       validates :company_name, length: { maximum: 41 }
       validates :salutation, length: { maximum: 15 }
       validates :first_name, length: { maximum: 25 }

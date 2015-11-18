@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Qbwc::Request::V07::Bill do
 
-  it_behaves_like 'queryable'
+  # it_behaves_like 'queryable'
 
   describe "add" do
 
