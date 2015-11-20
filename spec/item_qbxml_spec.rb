@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe ItemQbxml do
   
-  it_behaves_like 'queryable'
+  describe ItemQbxml::Query do
+    it_behaves_like 'queryable'
+  end
   
 end

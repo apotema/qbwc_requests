@@ -33,10 +33,15 @@ Dir["#{dir_name}/qbwc_requests/customer/**/*.rb"].each {|f| require f}
 Dir["#{dir_name}/qbwc_requests/estimate/**/*.rb"].each {|f| require f}
 Dir["#{dir_name}/qbwc_requests/general_detail_report/**/*.rb"].each {|f| require f}
 Dir["#{dir_name}/qbwc_requests/invoice/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/item/**/*.rb"].each {|f| require f}
 Dir["#{dir_name}/qbwc_requests/item_discount/**/*.rb"].each {|f| require f}
 Dir["#{dir_name}/qbwc_requests/item_group/**/*.rb"].each {|f| require f}
 Dir["#{dir_name}/qbwc_requests/item_non_inventory/**/*.rb"].each {|f| require f}
 Dir["#{dir_name}/qbwc_requests/item_other_charge/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/item_payment/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/item_service/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/item_subtotal/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/purchase_order/**/*.rb"].each {|f| require f}
 Dir["#{dir_name}/qbwc_requests/vendor/**/*.rb"].each {|f| require f}
 
 Dir["#{dir_name}/qbwc_requests/sub_models/*.rb"].each {|f| require f}

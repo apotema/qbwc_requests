@@ -14,7 +14,7 @@ describe VendorQbxml do
 
   end
 
-  describe VendorQbxml::Modify do
+  describe VendorQbxml::Mod do
   
     context "V07" do
 
@@ -24,11 +24,11 @@ describe VendorQbxml do
           <?qbxml version="7.0"?>
           <QBXML>
             <QBXMLMsgsRq onError="stopOnError">
-              <VendorModifyRq requestID="request_id">
-                <VendorModify>
+              <VendorModRq requestID="request_id">
+                <VendorMod>
                   <Name>a</Name>
-                </VendorModify>
-              </VendorModifyRq>
+                </VendorMod>
+              </VendorModRq>
             </QBXMLMsgsRq>
           </QBXML>
         XML
@@ -46,11 +46,11 @@ describe VendorQbxml do
           <?qbxml version="13.0"?>
           <QBXML>
             <QBXMLMsgsRq onError="stopOnError">
-              <VendorModifyRq requestID="request_id">
-                <VendorModify>
+              <VendorModRq requestID="request_id">
+                <VendorMod>
                   <Name>a</Name>
-                </VendorModify>
-              </VendorModifyRq>
+                </VendorMod>
+              </VendorModRq>
             </QBXMLMsgsRq>
           </QBXML>
         XML

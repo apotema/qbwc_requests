@@ -2,14 +2,16 @@ require 'spec_helper'
 
 describe ItemSubtotalQbxml do
 
-  # it_behaves_like 'queryable'
+  describe ItemSubtotalQbxml::Query do
+    it_behaves_like 'queryable'
+  end
 
-  it { is_expected.to validate_field_presence_of :name }
+  describe ItemSubtotalQbxml::Add do
 
-  describe "add" do
+    it { is_expected.to validate_field_presence_of :name }
 
-    let(:item) { ItemSubtotalQbxml.new(name: 'Subtotal item name') }
-    let(:item_with_bar_code) { ItemSubtotalQbxml.new(name: 'Subtotal item name', bar_code: { bar_code_value: 'some bar code value' } ) }
+    let(:item) { ItemSubtotalQbxml::Add.factory(name: 'Subtotal item name') }
+    let(:item_with_bar_code) { ItemSubtotalQbxml::Add.factory(name: 'Subtotal item name', bar_code: { bar_code_value: 'some bar code value' } ) }
 
     it "should create an add Item Subtotal xml" do
       xml = <<-XML
@@ -25,7 +27,7 @@ describe ItemSubtotalQbxml do
           </QBXMLMsgsRq>
         </QBXML>
       XML
-      expect( item.add("request_id") ).to be_xml_equal_to xml
+      expect( item.to_xml("request_id") ).to be_xml_equal_to xml
     end
 
     it "should create an add Item Subtotal with the bar_code" do
@@ -45,7 +47,7 @@ describe ItemSubtotalQbxml do
           </QBXMLMsgsRq>
         </QBXML>
       XML
-      expect( item_with_bar_code.add("request_id") ).to be_xml_equal_to xml
+      expect( item_with_bar_code.to_xml("request_id") ).to be_xml_equal_to xml
     end
 
   end

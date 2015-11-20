@@ -22,7 +22,7 @@ module QbwcRequests
 
 
     def const_missing(name)
-      if [:Modify, :Add, :Query].include?(name)
+      if [:Mod, :Add, :Query].include?(name)
         Instantiator.new(self.name.gsub("Qbxml",""),name)
       else
         raise "NameError: uninitialized constant #{name}"

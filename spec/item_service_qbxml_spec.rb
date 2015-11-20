@@ -2,13 +2,15 @@ require 'spec_helper'
 
 describe ItemServiceQbxml do
 
-  # it_behaves_like 'queryable'
+  describe ItemServiceQbxml::Query do
+    it_behaves_like 'queryable'
+  end
 
-  it { is_expected.to validate_field_presence_of :name }
+  describe ItemServiceQbxml::Add do
 
-  describe "add" do
+    it { is_expected.to validate_field_presence_of :name }
 
-    let(:item) {ItemServiceQbxml.factory(name: 'Service item name')}
+    let(:item) { ItemServiceQbxml::Add.factory(name: 'Service item name') }
 
     it "should create an add Item Service xml" do
       xml = <<-XML
