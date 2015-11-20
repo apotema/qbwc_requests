@@ -63,7 +63,7 @@ module QbwcRequests
     end
     
     def ordered_fields
-      return true if self.class.attr_order.blank?
+      return {} if self.class.attr_order.blank?
       new_hash = {}
       for attribute in self.class.attr_order
         value = send(attribute)

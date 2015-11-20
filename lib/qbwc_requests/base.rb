@@ -2,6 +2,7 @@ module QbwcRequests
   class Base
 
     include QbwcRequests::OrderedFields
+    include QbwcRequests::XmlActions
 
     def to_xml request_id
       self.valid? ? xml(request_id, self.class.name.demodulize) : self
