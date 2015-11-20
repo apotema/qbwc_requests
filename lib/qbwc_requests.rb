@@ -4,7 +4,6 @@ require "qbwc_requests/ordered_fields"
 require "qbwc_requests/xml_actions"
 require "qbwc_requests/base"
 require "qbwc_requests/factory"
-
 require "qbxml"
 
 require "account_qbxml"
@@ -26,21 +25,19 @@ require "job_report_qbxml"
 require "purchase_order_qbxml"
 require "vendor_qbxml"
 
-# Dir["#{File.dirname(__FILE__)}/qbwc_requests/qbwc/*.rb"].each {|f| require f}
-# Dir["#{File.dirname(__FILE__)}/qbwc_requests/qbwc/request/*.rb"].each {|f| require f}
-# Dir["#{File.dirname(__FILE__)}/qbwc_requests/qbwc/**/*.rb"].each {|f| require f}
-# Dir["#{File.dirname(__FILE__)}/qbwc_requests/qbwc/**/*.rb"].each {|f| require f}
-# Dir["#{File.dirname(__FILE__)}/qbwc_requests/**/*.rb"].each {|f| require f}
-Dir["#{File.dirname(__FILE__)}/qbwc_requests/account/**/*.rb"].each {|f| require f}
-Dir["#{File.dirname(__FILE__)}/qbwc_requests/bill/**/*.rb"].each {|f| require f}
-Dir["#{File.dirname(__FILE__)}/qbwc_requests/customer/**/*.rb"].each {|f| require f}
-Dir["#{File.dirname(__FILE__)}/qbwc_requests/estimate/**/*.rb"].each {|f| require f}
-Dir["#{File.dirname(__FILE__)}/qbwc_requests/general_detail_report/**/*.rb"].each {|f| require f}
-Dir["#{File.dirname(__FILE__)}/qbwc_requests/invoice/**/*.rb"].each {|f| require f}
-Dir["#{File.dirname(__FILE__)}/qbwc_requests/item_discount/**/*.rb"].each {|f| require f}
-Dir["#{File.dirname(__FILE__)}/qbwc_requests/vendor/**/*.rb"].each {|f| require f}
+dir_name = File.dirname(__FILE__)
 
-Dir["#{File.dirname(__FILE__)}/qbwc_requests/sub_models/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/account/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/bill/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/customer/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/estimate/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/general_detail_report/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/invoice/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/item_discount/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/item_group/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/vendor/**/*.rb"].each {|f| require f}
+
+Dir["#{dir_name}/qbwc_requests/sub_models/*.rb"].each {|f| require f}
 
 module QbwcRequests
   # Your code goes here...

@@ -2,14 +2,16 @@ require 'spec_helper'
 
 describe ItemGroupQbxml do
 
-  # it_behaves_like 'queryable'
+  describe ItemGroupQbxml::Query do
+    it_behaves_like 'queryable'
+  end
 
-  it{ is_expected.to validate_field_presence_of :name }
+  describe ItemGroupQbxml::Add do
 
-  describe "add" do
+    it{ is_expected.to validate_field_presence_of :name }
 
     it "should create an add Item Group xml" do
-      item = Qbwc::Request::V07::ItemGroup.new(name: 'Group item name')
+      item = ItemGroupQbxml::Add.factory(name: 'Group item name')
       xml = <<-XML
         <?xml version="1.0" encoding="ISO-8859-1"?>
         <?qbxml version="7.0"?>
@@ -23,7 +25,7 @@ describe ItemGroupQbxml do
           </QBXMLMsgsRq>
         </QBXML>
        XML
-      expect( item.add("request_id") ).to be_xml_equal_to xml
+      expect( item.to_xml("request_id") ).to be_xml_equal_to xml
     end
 
   end
