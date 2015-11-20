@@ -2,14 +2,16 @@ require 'spec_helper'
 
 describe ItemOtherChargeQbxml do
 
-  it_behaves_like 'queryable'
+  describe ItemOtherChargeQbxml::Query do
+    it_behaves_like 'queryable'
+  end
 
-  it{ is_expected.to validate_field_presence_of :name }
-  it{ is_expected.to validate_field_presence_of :sales_or_purchase }
+  describe ItemOtherChargeQbxml::Add do
 
-  describe "add" do
+    it{ is_expected.to validate_field_presence_of :name }
+    it{ is_expected.to validate_field_presence_of :sales_or_purchase }
 
-    let(:item){ ItemOtherChargeQbxml.factory(name: 'OtherCharge item name', sales_or_purchase: {price: "10.00", account_ref: {full_name: 'Some Account Name'}} ) }
+    let(:item){ ItemOtherChargeQbxml::Add.factory(name: 'OtherCharge item name', sales_or_purchase: {price: "10.00", account_ref: {full_name: 'Some Account Name'}} ) }
 
     it "should create an add Item Other Charge xml" do
       xml = <<-XML
@@ -31,7 +33,7 @@ describe ItemOtherChargeQbxml do
           </QBXMLMsgsRq>
         </QBXML>
       XML
-      expect( item.add("request_id") ).to be_xml_equal_to xml
+      expect( item.to_xml("request_id") ).to be_xml_equal_to xml
     end
 
   end

@@ -36,6 +36,7 @@ Dir["#{dir_name}/qbwc_requests/invoice/**/*.rb"].each {|f| require f}
 Dir["#{dir_name}/qbwc_requests/item_discount/**/*.rb"].each {|f| require f}
 Dir["#{dir_name}/qbwc_requests/item_group/**/*.rb"].each {|f| require f}
 Dir["#{dir_name}/qbwc_requests/item_non_inventory/**/*.rb"].each {|f| require f}
+Dir["#{dir_name}/qbwc_requests/item_other_charge/**/*.rb"].each {|f| require f}
 Dir["#{dir_name}/qbwc_requests/vendor/**/*.rb"].each {|f| require f}
 
 Dir["#{dir_name}/qbwc_requests/sub_models/*.rb"].each {|f| require f}
