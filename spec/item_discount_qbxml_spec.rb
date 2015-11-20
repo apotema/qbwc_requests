@@ -2,13 +2,15 @@ require 'spec_helper'
 
 describe ItemDiscountQbxml do
 
-  # it_behaves_like 'queryable'
+  describe ItemDiscountQbxml::Query do
+    it_behaves_like 'queryable'
+  end
+  
+  describe ItemDiscountQbxml::Add do
 
-  it{ is_expected.to validate_field_presence_of :name }
+    it{ is_expected.to validate_field_presence_of :name }
 
-  describe "add" do
-
-    let(:item_discount) { Qbwc::Request::V07::ItemDiscount.new(name: 'discount item name') }
+    let(:item_discount) { ItemDiscountQbxml::Add.factory(name: 'discount item name') }
 
     it "should create an add Discount Item xml" do
       xml = <<-XML
@@ -24,7 +26,7 @@ describe ItemDiscountQbxml do
           </QBXMLMsgsRq>
         </QBXML>
       XML
-      expect( item_discount.add("request_id") ).to be_xml_equal_to xml
+      expect( item_discount.to_xml("request_id") ).to be_xml_equal_to xml
     end
 
   end
