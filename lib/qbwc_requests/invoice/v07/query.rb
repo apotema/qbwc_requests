@@ -1,5 +1,5 @@
 module QbwcRequests
-  module GeneralDetailReport
+  module Invoice
     module V07
       class Query < QbwcRequests::Base
         field :max_returned

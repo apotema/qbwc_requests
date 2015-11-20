@@ -20,11 +20,11 @@ module QbwcRequests
     end
 
     def class_name
-      self.class.underscore(self.class.name.split("::").first.gsub("Qbxml",""))
+      self.class.underscore(self.class.name.split("::")[1].gsub("Qbxml",""))
     end
 
     def self.version
-      self.name.split("::")[1].gsub("V","")
+      self.name.split("::")[2].gsub("V","")
     end
 
     def persisted?

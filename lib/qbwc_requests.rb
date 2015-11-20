@@ -36,6 +36,7 @@ Dir["#{File.dirname(__FILE__)}/qbwc_requests/bill/**/*.rb"].each {|f| require f}
 Dir["#{File.dirname(__FILE__)}/qbwc_requests/customer/**/*.rb"].each {|f| require f}
 Dir["#{File.dirname(__FILE__)}/qbwc_requests/estimate/**/*.rb"].each {|f| require f}
 Dir["#{File.dirname(__FILE__)}/qbwc_requests/general_detail_report/**/*.rb"].each {|f| require f}
+Dir["#{File.dirname(__FILE__)}/qbwc_requests/invoice/**/*.rb"].each {|f| require f}
 Dir["#{File.dirname(__FILE__)}/qbwc_requests/vendor/**/*.rb"].each {|f| require f}
 
 Dir["#{File.dirname(__FILE__)}/qbwc_requests/sub_models/*.rb"].each {|f| require f}

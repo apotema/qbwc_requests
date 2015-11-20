@@ -1,11 +1,13 @@
-module Account
-  module V07
-    class Add < QbwcRequests::Base
+module QbwcRequests
+  module Account
+    module V07
+      class Add < QbwcRequests::Base
 
-      field :name
+        field :name
 
-      validates :name, presence: true
-      
+        validates :name, presence: true
+        
+      end
     end
   end
 end

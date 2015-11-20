@@ -1,13 +1,13 @@
 module QbwcRequests
-  module Estimate
+  module Invoice
     module V07
       class Add < QbwcRequests::Base
 
         ref_to :customer, 209
-        field :estimate_line_add
+        field :invoice_line_add
 
         validates :customer_ref, presence: true
-        validates :estimate_line_add, presence: true
+        validates :invoice_line_add, presence: true
             
       end
     end

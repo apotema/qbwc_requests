@@ -10,7 +10,7 @@ module QbwcRequests
 
       def factory params = {}, version = nil
         final_version = version || QbwcRequests.QBXML_VERSION
-        object = Object.const_get("#{@module_name}::V#{final_version}::#{@klass}")
+        object = Object.const_get("QbwcRequests::#{@module_name}::V#{final_version}::#{@klass}")
         object.new(params)
       end
 
