@@ -1,0 +1,3043 @@
+<!-- ============================================================================= -->
+<!--                                                                               -->
+<!-- qbxmlops60.dtd                                                                -->
+<!--                                                                               -->
+<!-- qbXML version 6.0                                                             -->
+<!--                                                                               -->
+<!-- (c) 2006 Intuit Inc. All rights reserved.                                     -->
+<!--                                                                               -->
+<!-- Use is subject to a qbXML Developer Agreement available at:                   -->
+<!--          http://developer.intuit.com/legal/                                   -->
+<!--                                                                               -->
+<!-- ============================================================================= -->
+
+<!-- Public Includes -->
+<!ENTITY % qbxml60.dtd SYSTEM "qbxml60.dtd">
+%qbxml60.dtd;
+<!ENTITY % qbxmlso60.dtd SYSTEM "qbxmlso60.dtd">
+%qbxmlso60.dtd;
+
+
+<!-- ============================================================================= -->
+<!--      Macros                                                                   -->
+<!-- ============================================================================= -->
+
+<!ENTITY % TxnTypeIDMacro "(TxnType , TxnID?)" >
+<!ENTITY % ListTypeIDMacro "(ListType , ListID?)" >
+<!ENTITY % SubscriptionDelMacro "(SubscriberID , SubscriptionType)" >
+<!ENTITY % SubscriptionQueryMacro "(SubscriberID)" >
+
+
+<!-- ============================================================================= -->
+<!--     Elements                                                                  -->
+<!-- ============================================================================= -->
+
+<!ELEMENT SubscriberID %GUIDTYPE;>
+<!ELEMENT DeliveryPolicy %ENUMTYPE;>
+<!ELEMENT TrackLostEvents %ENUMTYPE;>
+<!ELEMENT IsSynchronous %BOOLTYPE;>
+<!ELEMENT TimeLastProcessed %DATETIMETYPE;>
+<!ELEMENT DataEventRecoveryTime %DATETIMETYPE;>
+<!ELEMENT CompanyFilePath %STRTYPE;>
+<!ELEMENT IsNewCompany %BOOLTYPE;>
+<!ELEMENT AfterMergeListID %IDTYPE;>
+<!ELEMENT MenuText %STRTYPE;>
+<!ELEMENT EventTag %STRTYPE;>
+<!ELEMENT AddToMenu %ENUMTYPE;>
+<!ELEMENT VisibleIf %ENUMTYPE;>
+<!ELEMENT VisibleIfNot %ENUMTYPE;>
+<!ELEMENT EnabledIf %ENUMTYPE;>
+<!ELEMENT EnabledIfNot %ENUMTYPE;>
+<!ELEMENT ListEventType %ENUMTYPE;>
+<!ELEMENT ListEventOperation %ENUMTYPE;>
+<!ELEMENT TxnEventType %ENUMTYPE;>
+<!ELEMENT TxnEventOperation %ENUMTYPE;>
+<!ELEMENT CompanyFileEventOperation %ENUMTYPE;>
+<!ELEMENT SubscriptionType %ENUMTYPE;>
+<!ELEMENT DeliverOwnEvents %BOOLTYPE;>
+<!ELEMENT ListType %ENUMTYPE;>
+
+
+<!-- ============================================================================= -->
+<!--     Aggregates                                                                -->
+<!-- ============================================================================= -->
+
+<!ELEMENT ListEventSubscription (ListEventType+ , ListEventOperation+)>
+<!ELEMENT TxnEventSubscription (TxnEventType+ , TxnEventOperation+)>
+<!ELEMENT CompanyFileEventSubscription (CompanyFileEventOperation+)>
+<!ELEMENT DataEventSubscriptionAdd (SubscriberID , COMCallbackInfo , DeliveryPolicy , TrackLostEvents? , DeliverOwnEvents? , ListEventSubscription* , TxnEventSubscription*)>
+<!ELEMENT DataEventSubscriptionRet (SubscriberID , TimeCreated , TimeLastProcessed? , COMCallbackInfo , DeliveryPolicy , TrackLostEvents , DeliverOwnEvents? , ListEventSubscription* , TxnEventSubscription*)>
+<!ELEMENT UIEventSubscriptionAdd (SubscriberID , COMCallbackInfo , DeliveryPolicy , CompanyFileEventSubscription)>
+<!ELEMENT UIEventSubscriptionRet (SubscriberID , TimeCreated , TimeLastProcessed? , COMCallbackInfo , DeliveryPolicy , CompanyFileEventSubscription)>
+<!ELEMENT DisplayCondition (VisibleIf* , VisibleIfNot* , EnabledIf* , EnabledIfNot*)>
+<!ELEMENT MenuItem (MenuText , EventTag , DisplayCondition?)>
+<!ELEMENT Submenu (DisplayCondition? , MenuItem+)>
+<!ELEMENT MenuExtensionSubscription (AddToMenu , (Submenu | MenuItem))>
+<!ELEMENT CurrentWindow ((%TxnTypeIDMacro; | %ListTypeIDMacro;))>
+<!ELEMENT UIExtensionSubscriptionAdd (SubscriberID , COMCallbackInfo , MenuExtensionSubscription)>
+<!ELEMENT UIExtensionSubscriptionRet (SubscriberID , TimeCreated , TimeLastProcessed? , COMCallbackInfo , MenuExtensionSubscription)>
+<!ELEMENT DataEventRecoveryInfoRet (SubscriberID , DataEventRecoveryTime?)>
+<!ELEMENT ListEvent (ListEventType , ListEventOperation , ListID , AfterMergeListID?)>
+<!ELEMENT TxnEvent (TxnEventType , TxnEventOperation , TxnID , RefNumber?)>
+<!ELEMENT CompanyFileEvent (CompanyFileEventOperation , IsNewCompany? , IsAutomaticLogin?)>
+<!ELEMENT DataEvent (CompanyFilePath , HostInfo , (ListEvent | TxnEvent) , LastRestoreTime? , LastCondenseTime? , DataEventRecoveryTime?)>
+<!ELEMENT UIEvent (CompanyFilePath , HostInfo , CompanyFileEvent)>
+<!ELEMENT UIExtensionEvent (CompanyFilePath , HostInfo , EventTag , CurrentWindow?)>
+<!ELEMENT HostInfo (ProductName , MajorVersion , MinorVersion , Country)>
+
+
+
+
+<!-- ============================================================================= -->
+<!--      Message Sets                                                             -->
+<!-- ============================================================================= -->
+
+<!-- Message Set Request/Response Pairs and contained requests  -->
+<!ELEMENT QBXMLMsgsRq ((HostQueryRq | CompanyQueryRq | CompanyActivityQueryRq | PreferencesQueryRq | AccountAddRq | AccountModRq | AccountQueryRq | SpecialAccountAddRq | CustomerAddRq | CustomerModRq | CustomerQueryRq | EmployeeAddRq | EmployeeModRq | EmployeeQueryRq | OtherNameAddRq | OtherNameModRq | OtherNameQueryRq | VendorAddRq | VendorModRq | VendorQueryRq | EntityQueryRq | StandardTermsAddRq | StandardTermsQueryRq | DateDrivenTermsAddRq | DateDrivenTermsQueryRq | TermsQueryRq | ClassAddRq | ClassQueryRq | SalesRepAddRq | SalesRepModRq | SalesRepQueryRq | CustomerTypeAddRq | CustomerTypeQueryRq | VendorTypeAddRq | VendorTypeQueryRq | JobTypeAddRq | JobTypeQueryRq | CustomerMsgAddRq | CustomerMsgQueryRq | PaymentMethodAddRq | PaymentMethodQueryRq | ShipMethodAddRq | ShipMethodQueryRq | SalesTaxCodeAddRq | SalesTaxCodeQueryRq | ToDoAddRq | ToDoQueryRq | VehicleAddRq | VehicleModRq | VehicleQueryRq | ItemServiceAddRq | ItemServiceModRq | ItemServiceQueryRq | ItemNonInventoryAddRq | ItemNonInventoryModRq | ItemNonInventoryQueryRq | ItemOtherChargeAddRq | ItemOtherChargeModRq | ItemOtherChargeQueryRq | ItemInventoryAddRq | ItemInventoryModRq | ItemInventoryQueryRq | ItemInventoryAssemblyAddRq | ItemInventoryAssemblyModRq | ItemInventoryAssemblyQueryRq | ItemFixedAssetAddRq | ItemFixedAssetModRq | ItemFixedAssetQueryRq | ItemSubtotalAddRq | ItemSubtotalModRq | ItemSubtotalQueryRq | ItemDiscountAddRq | ItemDiscountModRq | ItemDiscountQueryRq | ItemPaymentAddRq | ItemPaymentModRq | ItemPaymentQueryRq | ItemSalesTaxAddRq | ItemSalesTaxModRq | ItemSalesTaxQueryRq | ItemSalesTaxGroupAddRq | ItemSalesTaxGroupModRq | ItemSalesTaxGroupQueryRq | ItemGroupAddRq | ItemGroupModRq | ItemGroupQueryRq | SpecialItemAddRq | ItemQueryRq | PayrollItemWageAddRq | PayrollItemWageQueryRq | PayrollItemNonWageQueryRq | TemplateQueryRq | InvoiceAddRq | InvoiceModRq | InvoiceQueryRq | EstimateAddRq | EstimateModRq | EstimateQueryRq | SalesOrderAddRq | SalesOrderModRq | SalesOrderQueryRq | SalesReceiptAddRq | SalesReceiptModRq | SalesReceiptQueryRq | CreditMemoAddRq | CreditMemoModRq | CreditMemoQueryRq | ReceivePaymentAddRq | ReceivePaymentModRq | ReceivePaymentQueryRq | ReceivePaymentToDepositQueryRq | ChargeAddRq | ChargeModRq | ChargeQueryRq | PurchaseOrderAddRq | PurchaseOrderModRq | PurchaseOrderQueryRq | BillAddRq | BillModRq | BillQueryRq | ItemReceiptAddRq | ItemReceiptModRq | ItemReceiptQueryRq | VendorCreditAddRq | VendorCreditQueryRq | BillPaymentCheckAddRq | BillPaymentCheckModRq | BillPaymentCheckQueryRq | BillPaymentCreditCardAddRq | BillPaymentCreditCardQueryRq | BillToPayQueryRq | SalesTaxPaymentCheckQueryRq | InventoryAdjustmentAddRq | InventoryAdjustmentQueryRq | TimeTrackingAddRq | TimeTrackingModRq | TimeTrackingQueryRq | CheckAddRq | CheckModRq | CheckQueryRq | CreditCardChargeAddRq | CreditCardChargeModRq | CreditCardChargeQueryRq | CreditCardCreditAddRq | CreditCardCreditModRq | CreditCardCreditQueryRq | JournalEntryAddRq | JournalEntryModRq | JournalEntryQueryRq | DepositAddRq | DepositQueryRq | ListDelRq | ListDeletedQueryRq | TxnDelRq | TxnVoidRq | TxnDeletedQueryRq | ClearedStatusModRq | ListDisplayAddRq | ListDisplayModRq | TxnDisplayAddRq | TxnDisplayModRq | DataEventRecoveryInfoDelRq | DataEventRecoveryInfoQueryRq | TransactionQueryRq | PriceLevelAddRq | PriceLevelModRq | PriceLevelQueryRq | BillingRateAddRq | BillingRateQueryRq | BuildAssemblyAddRq | BuildAssemblyModRq | BuildAssemblyQueryRq | ItemAssembliesCanBuildQueryRq | ARRefundCreditCardAddRq | ARRefundCreditCardQueryRq | VehicleMileageAddRq | VehicleMileageQueryRq | GeneralSummaryReportQueryRq | JobReportQueryRq | TimeReportQueryRq | AgingReportQueryRq | BudgetSummaryReportQueryRq | GeneralDetailReportQueryRq | CustomDetailReportQueryRq | CustomSummaryReportQueryRq | PayrollDetailReportQueryRq | PayrollSummaryReportQueryRq | DataExtDefAddRq | DataExtDefModRq | DataExtDefDelRq | DataExtDefQueryRq | DataExtAddRq | DataExtModRq | DataExtDelRq)*)>
+<!ATTLIST QBXMLMsgsRq
+          oldMessageSetID CDATA #IMPLIED
+          newMessageSetID CDATA #IMPLIED
+          responseData (includeAll | includeNone)  "includeAll"
+          onError (continueOnError | rollbackOnError | stopOnError)  #REQUIRED
+>
+<!ELEMENT QBXMLMsgsRs ((HostQueryRs | CompanyQueryRs | CompanyActivityQueryRs | PreferencesQueryRs | AccountAddRs | AccountModRs | AccountQueryRs | SpecialAccountAddRs | CustomerAddRs | CustomerModRs | CustomerQueryRs | EmployeeAddRs | EmployeeModRs | EmployeeQueryRs | OtherNameAddRs | OtherNameModRs | OtherNameQueryRs | VendorAddRs | VendorModRs | VendorQueryRs | EntityQueryRs | StandardTermsAddRs | StandardTermsQueryRs | DateDrivenTermsAddRs | DateDrivenTermsQueryRs | TermsQueryRs | ClassAddRs | ClassQueryRs | SalesRepAddRs | SalesRepModRs | SalesRepQueryRs | CustomerTypeAddRs | CustomerTypeQueryRs | VendorTypeAddRs | VendorTypeQueryRs | JobTypeAddRs | JobTypeQueryRs | CustomerMsgAddRs | CustomerMsgQueryRs | PaymentMethodAddRs | PaymentMethodQueryRs | ShipMethodAddRs | ShipMethodQueryRs | SalesTaxCodeAddRs | SalesTaxCodeQueryRs | ToDoAddRs | ToDoQueryRs | VehicleAddRs | VehicleModRs | VehicleQueryRs | ItemServiceAddRs | ItemServiceModRs | ItemServiceQueryRs | ItemNonInventoryAddRs | ItemNonInventoryModRs | ItemNonInventoryQueryRs | ItemOtherChargeAddRs | ItemOtherChargeModRs | ItemOtherChargeQueryRs | ItemInventoryAddRs | ItemInventoryModRs | ItemInventoryQueryRs | ItemInventoryAssemblyAddRs | ItemInventoryAssemblyModRs | ItemInventoryAssemblyQueryRs | ItemFixedAssetAddRs | ItemFixedAssetModRs | ItemFixedAssetQueryRs | ItemSubtotalAddRs | ItemSubtotalModRs | ItemSubtotalQueryRs | ItemDiscountAddRs | ItemDiscountModRs | ItemDiscountQueryRs | ItemPaymentAddRs | ItemPaymentModRs | ItemPaymentQueryRs | ItemSalesTaxAddRs | ItemSalesTaxModRs | ItemSalesTaxQueryRs | ItemSalesTaxGroupAddRs | ItemSalesTaxGroupModRs | ItemSalesTaxGroupQueryRs | ItemGroupAddRs | ItemGroupModRs | ItemGroupQueryRs | SpecialItemAddRs | ItemQueryRs | PayrollItemWageAddRs | PayrollItemWageQueryRs | PayrollItemNonWageQueryRs | TemplateQueryRs | InvoiceAddRs | InvoiceModRs | InvoiceQueryRs | EstimateAddRs | EstimateModRs | EstimateQueryRs | SalesOrderAddRs | SalesOrderModRs | SalesOrderQueryRs | SalesReceiptAddRs | SalesReceiptModRs | SalesReceiptQueryRs | CreditMemoAddRs | CreditMemoModRs | CreditMemoQueryRs | ReceivePaymentAddRs | ReceivePaymentModRs | ReceivePaymentQueryRs | ReceivePaymentToDepositQueryRs | ChargeAddRs | ChargeModRs | ChargeQueryRs | PurchaseOrderAddRs | PurchaseOrderModRs | PurchaseOrderQueryRs | BillAddRs | BillModRs | BillQueryRs | ItemReceiptAddRs | ItemReceiptModRs | ItemReceiptQueryRs | VendorCreditAddRs | VendorCreditQueryRs | BillPaymentCheckAddRs | BillPaymentCheckModRs | BillPaymentCheckQueryRs | BillPaymentCreditCardAddRs | BillPaymentCreditCardQueryRs | BillToPayQueryRs | SalesTaxPaymentCheckQueryRs | InventoryAdjustmentAddRs | InventoryAdjustmentQueryRs | TimeTrackingAddRs | TimeTrackingModRs | TimeTrackingQueryRs | CheckAddRs | CheckModRs | CheckQueryRs | CreditCardChargeAddRs | CreditCardChargeModRs | CreditCardChargeQueryRs | CreditCardCreditAddRs | CreditCardCreditModRs | CreditCardCreditQueryRs | JournalEntryAddRs | JournalEntryModRs | JournalEntryQueryRs | DepositAddRs | DepositQueryRs | ListDelRs | ListDeletedQueryRs | TxnDelRs | TxnVoidRs | TxnDeletedQueryRs | ClearedStatusModRs | ListDisplayAddRs | ListDisplayModRs | TxnDisplayAddRs | TxnDisplayModRs | DataEventRecoveryInfoDelRs | DataEventRecoveryInfoQueryRs | TransactionQueryRs | PriceLevelAddRs | PriceLevelModRs | PriceLevelQueryRs | BillingRateAddRs | BillingRateQueryRs | BuildAssemblyAddRs | BuildAssemblyModRs | BuildAssemblyQueryRs | ItemAssembliesCanBuildQueryRs | ARRefundCreditCardAddRs | ARRefundCreditCardQueryRs | VehicleMileageAddRs | VehicleMileageQueryRs | GeneralSummaryReportQueryRs | JobReportQueryRs | TimeReportQueryRs | AgingReportQueryRs | BudgetSummaryReportQueryRs | GeneralDetailReportQueryRs | CustomDetailReportQueryRs | CustomSummaryReportQueryRs | PayrollDetailReportQueryRs | PayrollSummaryReportQueryRs | DataExtDefAddRs | DataExtDefModRs | DataExtDefDelRs | DataExtDefQueryRs | DataExtAddRs | DataExtModRs | DataExtDelRs)*)>
+<!ATTLIST QBXMLMsgsRs
+          newMessageSetID CDATA #IMPLIED
+          messageSetStatusCode CDATA #IMPLIED
+>
+
+<!-- Message Set Request/Response Pairs and contained requests  -->
+<!ELEMENT QBXMLSubscriptionMsgsRq ((DataEventSubscriptionAddRq | DataEventSubscriptionQueryRq | UIEventSubscriptionAddRq | UIEventSubscriptionQueryRq | UIExtensionSubscriptionAddRq | UIExtensionSubscriptionQueryRq | SubscriptionDelRq)*)>
+<!ELEMENT QBXMLSubscriptionMsgsRs ((DataEventSubscriptionAddRs | DataEventSubscriptionQueryRs | UIEventSubscriptionAddRs | UIEventSubscriptionQueryRs | UIExtensionSubscriptionAddRs | UIExtensionSubscriptionQueryRs | SubscriptionDelRs)*)>
+
+<!-- ============================================================================= -->
+<!--      Request Detail                                                           -->
+<!-- ============================================================================= -->
+
+
+<!-- Host Requests -->
+<!ELEMENT HostQueryRq (%HostQueryMacro;)>
+<!ATTLIST HostQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- Company Requests -->
+<!ELEMENT CompanyQueryRq (%CompanyQueryMacro;)>
+<!ATTLIST CompanyQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- CompanyActivity Requests -->
+<!ELEMENT CompanyActivityQueryRq (%CompanyActivityQueryMacro;)>
+<!ATTLIST CompanyActivityQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- Preferences Requests -->
+<!ELEMENT PreferencesQueryRq (%PreferencesQueryMacro;)>
+<!ATTLIST PreferencesQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- Account Requests -->
+<!ELEMENT AccountAddRq (AccountAdd , IncludeRetElement*)>
+<!ATTLIST AccountAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT AccountModRq (AccountMod , IncludeRetElement*)>
+<!ATTLIST AccountModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT AccountQueryRq (%AccountListQueryMacro;)>
+<!ATTLIST AccountQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- SpecialAccount Requests -->
+<!ELEMENT SpecialAccountAddRq (SpecialAccountAdd , IncludeRetElement*)>
+<!ATTLIST SpecialAccountAddRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- Customer Requests -->
+<!ELEMENT CustomerAddRq (CustomerAdd , IncludeRetElement*)>
+<!ATTLIST CustomerAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT CustomerModRq (CustomerMod , IncludeRetElement*)>
+<!ATTLIST CustomerModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT CustomerQueryRq (%CustomerListQueryMacro;)>
+<!ATTLIST CustomerQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- Employee Requests -->
+<!ELEMENT EmployeeAddRq (EmployeeAdd , IncludeRetElement*)>
+<!ATTLIST EmployeeAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT EmployeeModRq (EmployeeMod , IncludeRetElement*)>
+<!ATTLIST EmployeeModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT EmployeeQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST EmployeeQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- OtherName Requests -->
+<!ELEMENT OtherNameAddRq (OtherNameAdd , IncludeRetElement*)>
+<!ATTLIST OtherNameAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT OtherNameModRq (OtherNameMod , IncludeRetElement*)>
+<!ATTLIST OtherNameModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT OtherNameQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST OtherNameQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- Vendor Requests -->
+<!ELEMENT VendorAddRq (VendorAdd , IncludeRetElement*)>
+<!ATTLIST VendorAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT VendorModRq (VendorMod , IncludeRetElement*)>
+<!ATTLIST VendorModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT VendorQueryRq (%VendorListQueryMacro;)>
+<!ATTLIST VendorQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- Entity Requests -->
+<!ELEMENT EntityQueryRq (%ListQueryMacro;)>
+<!ATTLIST EntityQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- StandardTerms Requests -->
+<!ELEMENT StandardTermsAddRq (StandardTermsAdd , IncludeRetElement*)>
+<!ATTLIST StandardTermsAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT StandardTermsQueryRq (%ListQueryMacro;)>
+<!ATTLIST StandardTermsQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- DateDrivenTerms Requests -->
+<!ELEMENT DateDrivenTermsAddRq (DateDrivenTermsAdd , IncludeRetElement*)>
+<!ATTLIST DateDrivenTermsAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT DateDrivenTermsQueryRq (%ListQueryMacro;)>
+<!ATTLIST DateDrivenTermsQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- Terms Requests -->
+<!ELEMENT TermsQueryRq (%ListQueryMacro;)>
+<!ATTLIST TermsQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- Class Requests -->
+<!ELEMENT ClassAddRq (ClassAdd , IncludeRetElement*)>
+<!ATTLIST ClassAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ClassQueryRq (%ListQueryMacro;)>
+<!ATTLIST ClassQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- SalesRep Requests -->
+<!ELEMENT SalesRepAddRq (SalesRepAdd , IncludeRetElement*)>
+<!ATTLIST SalesRepAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT SalesRepModRq (SalesRepMod , IncludeRetElement*)>
+<!ATTLIST SalesRepModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT SalesRepQueryRq (%ListQueryMacro;)>
+<!ATTLIST SalesRepQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- CustomerType Requests -->
+<!ELEMENT CustomerTypeAddRq (CustomerTypeAdd , IncludeRetElement*)>
+<!ATTLIST CustomerTypeAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT CustomerTypeQueryRq (%ListQueryMacro;)>
+<!ATTLIST CustomerTypeQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- VendorType Requests -->
+<!ELEMENT VendorTypeAddRq (VendorTypeAdd , IncludeRetElement*)>
+<!ATTLIST VendorTypeAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT VendorTypeQueryRq (%ListQueryMacro;)>
+<!ATTLIST VendorTypeQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- JobType Requests -->
+<!ELEMENT JobTypeAddRq (JobTypeAdd , IncludeRetElement*)>
+<!ATTLIST JobTypeAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT JobTypeQueryRq (%ListQueryMacro;)>
+<!ATTLIST JobTypeQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- CustomerMsg Requests -->
+<!ELEMENT CustomerMsgAddRq (CustomerMsgAdd , IncludeRetElement*)>
+<!ATTLIST CustomerMsgAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT CustomerMsgQueryRq (%ListQueryMacro;)>
+<!ATTLIST CustomerMsgQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- PaymentMethod Requests -->
+<!ELEMENT PaymentMethodAddRq (PaymentMethodAdd , IncludeRetElement*)>
+<!ATTLIST PaymentMethodAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT PaymentMethodQueryRq (%ListQueryMacro;)>
+<!ATTLIST PaymentMethodQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- ShipMethod Requests -->
+<!ELEMENT ShipMethodAddRq (ShipMethodAdd , IncludeRetElement*)>
+<!ATTLIST ShipMethodAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ShipMethodQueryRq (%ListQueryMacro;)>
+<!ATTLIST ShipMethodQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- SalesTaxCode Requests -->
+<!ELEMENT SalesTaxCodeAddRq (SalesTaxCodeAdd , IncludeRetElement*)>
+<!ATTLIST SalesTaxCodeAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT SalesTaxCodeQueryRq (%ListQueryMacro;)>
+<!ATTLIST SalesTaxCodeQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- ToDo Requests -->
+<!ELEMENT ToDoAddRq (ToDoAdd , IncludeRetElement*)>
+<!ATTLIST ToDoAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ToDoQueryRq (%ToDoListQueryMacro;)>
+<!ATTLIST ToDoQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- Vehicle Requests -->
+<!ELEMENT VehicleAddRq (VehicleAdd , IncludeRetElement*)>
+<!ATTLIST VehicleAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT VehicleModRq (VehicleMod , IncludeRetElement*)>
+<!ATTLIST VehicleModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT VehicleQueryRq (%ListQueryMacro;)>
+<!ATTLIST VehicleQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- ItemService Requests -->
+<!ELEMENT ItemServiceAddRq (ItemServiceAdd , IncludeRetElement*)>
+<!ATTLIST ItemServiceAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemServiceModRq (ItemServiceMod , IncludeRetElement*)>
+<!ATTLIST ItemServiceModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemServiceQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST ItemServiceQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemNonInventory Requests -->
+<!ELEMENT ItemNonInventoryAddRq (ItemNonInventoryAdd , IncludeRetElement*)>
+<!ATTLIST ItemNonInventoryAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemNonInventoryModRq (ItemNonInventoryMod , IncludeRetElement*)>
+<!ATTLIST ItemNonInventoryModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemNonInventoryQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST ItemNonInventoryQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemOtherCharge Requests -->
+<!ELEMENT ItemOtherChargeAddRq (ItemOtherChargeAdd , IncludeRetElement*)>
+<!ATTLIST ItemOtherChargeAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemOtherChargeModRq (ItemOtherChargeMod , IncludeRetElement*)>
+<!ATTLIST ItemOtherChargeModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemOtherChargeQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST ItemOtherChargeQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemInventory Requests -->
+<!ELEMENT ItemInventoryAddRq (ItemInventoryAdd , IncludeRetElement*)>
+<!ATTLIST ItemInventoryAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemInventoryModRq (ItemInventoryMod , IncludeRetElement*)>
+<!ATTLIST ItemInventoryModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemInventoryQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST ItemInventoryQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemInventoryAssembly Requests -->
+<!ELEMENT ItemInventoryAssemblyAddRq (ItemInventoryAssemblyAdd , IncludeRetElement*)>
+<!ATTLIST ItemInventoryAssemblyAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemInventoryAssemblyModRq (ItemInventoryAssemblyMod , IncludeRetElement*)>
+<!ATTLIST ItemInventoryAssemblyModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemInventoryAssemblyQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST ItemInventoryAssemblyQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemFixedAsset Requests -->
+<!ELEMENT ItemFixedAssetAddRq (ItemFixedAssetAdd , IncludeRetElement*)>
+<!ATTLIST ItemFixedAssetAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemFixedAssetModRq (ItemFixedAssetMod , IncludeRetElement*)>
+<!ATTLIST ItemFixedAssetModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemFixedAssetQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST ItemFixedAssetQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemSubtotal Requests -->
+<!ELEMENT ItemSubtotalAddRq (ItemSubtotalAdd , IncludeRetElement*)>
+<!ATTLIST ItemSubtotalAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemSubtotalModRq (ItemSubtotalMod , IncludeRetElement*)>
+<!ATTLIST ItemSubtotalModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemSubtotalQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST ItemSubtotalQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemDiscount Requests -->
+<!ELEMENT ItemDiscountAddRq (ItemDiscountAdd , IncludeRetElement*)>
+<!ATTLIST ItemDiscountAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemDiscountModRq (ItemDiscountMod , IncludeRetElement*)>
+<!ATTLIST ItemDiscountModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemDiscountQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST ItemDiscountQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemPayment Requests -->
+<!ELEMENT ItemPaymentAddRq (ItemPaymentAdd , IncludeRetElement*)>
+<!ATTLIST ItemPaymentAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemPaymentModRq (ItemPaymentMod , IncludeRetElement*)>
+<!ATTLIST ItemPaymentModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemPaymentQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST ItemPaymentQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemSalesTax Requests -->
+<!ELEMENT ItemSalesTaxAddRq (ItemSalesTaxAdd , IncludeRetElement*)>
+<!ATTLIST ItemSalesTaxAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemSalesTaxModRq (ItemSalesTaxMod , IncludeRetElement*)>
+<!ATTLIST ItemSalesTaxModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemSalesTaxQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST ItemSalesTaxQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemSalesTaxGroup Requests -->
+<!ELEMENT ItemSalesTaxGroupAddRq (ItemSalesTaxGroupAdd , IncludeRetElement*)>
+<!ATTLIST ItemSalesTaxGroupAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemSalesTaxGroupModRq (ItemSalesTaxGroupMod , IncludeRetElement*)>
+<!ATTLIST ItemSalesTaxGroupModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemSalesTaxGroupQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST ItemSalesTaxGroupQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemGroup Requests -->
+<!ELEMENT ItemGroupAddRq (ItemGroupAdd , IncludeRetElement*)>
+<!ATTLIST ItemGroupAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemGroupModRq (ItemGroupMod , IncludeRetElement*)>
+<!ATTLIST ItemGroupModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemGroupQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST ItemGroupQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- SpecialItem Requests -->
+<!ELEMENT SpecialItemAddRq (SpecialItemAdd , IncludeRetElement*)>
+<!ATTLIST SpecialItemAddRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- Item Requests -->
+<!ELEMENT ItemQueryRq (%ListQueryWithOwnerIDMacro;)>
+<!ATTLIST ItemQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- PayrollItemWage Requests -->
+<!ELEMENT PayrollItemWageAddRq (PayrollItemWageAdd , IncludeRetElement*)>
+<!ATTLIST PayrollItemWageAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT PayrollItemWageQueryRq (%ListQueryMacro;)>
+<!ATTLIST PayrollItemWageQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- PayrollItemNonWage Requests -->
+<!ELEMENT PayrollItemNonWageQueryRq (%ListQueryMacro;)>
+<!ATTLIST PayrollItemNonWageQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- Template Requests -->
+<!ELEMENT TemplateQueryRq (%TemplateQueryMacro;)>
+<!ATTLIST TemplateQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- Invoice Requests -->
+<!ELEMENT InvoiceAddRq (InvoiceAdd , IncludeRetElement*)>
+<!ATTLIST InvoiceAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT InvoiceModRq (InvoiceMod , IncludeRetElement*)>
+<!ATTLIST InvoiceModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT InvoiceQueryRq (%InvoiceQueryMacro;)>
+<!ATTLIST InvoiceQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- Estimate Requests -->
+<!ELEMENT EstimateAddRq (EstimateAdd , IncludeRetElement*)>
+<!ATTLIST EstimateAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT EstimateModRq (EstimateMod , IncludeRetElement*)>
+<!ATTLIST EstimateModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT EstimateQueryRq (%EstimateQueryMacro;)>
+<!ATTLIST EstimateQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- SalesOrder Requests -->
+<!ELEMENT SalesOrderAddRq (SalesOrderAdd , IncludeRetElement*)>
+<!ATTLIST SalesOrderAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT SalesOrderModRq (SalesOrderMod , IncludeRetElement*)>
+<!ATTLIST SalesOrderModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT SalesOrderQueryRq (%TxnQueryWithLinkedFilterNoAccountMacro;)>
+<!ATTLIST SalesOrderQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- SalesReceipt Requests -->
+<!ELEMENT SalesReceiptAddRq (SalesReceiptAdd , IncludeRetElement*)>
+<!ATTLIST SalesReceiptAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT SalesReceiptModRq (SalesReceiptMod , IncludeRetElement*)>
+<!ATTLIST SalesReceiptModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT SalesReceiptQueryRq (%TxnQueryMacro;)>
+<!ATTLIST SalesReceiptQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- CreditMemo Requests -->
+<!ELEMENT CreditMemoAddRq (CreditMemoAdd , IncludeRetElement*)>
+<!ATTLIST CreditMemoAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT CreditMemoModRq (CreditMemoMod , IncludeRetElement*)>
+<!ATTLIST CreditMemoModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT CreditMemoQueryRq (%CreditMemoQueryMacro;)>
+<!ATTLIST CreditMemoQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ReceivePayment Requests -->
+<!ELEMENT ReceivePaymentAddRq (ReceivePaymentAdd , IncludeRetElement*)>
+<!ATTLIST ReceivePaymentAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ReceivePaymentModRq (ReceivePaymentMod , IncludeRetElement*)>
+<!ATTLIST ReceivePaymentModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ReceivePaymentQueryRq (%TxnQueryMacro;)>
+<!ATTLIST ReceivePaymentQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ReceivePaymentToDeposit Requests -->
+<!ELEMENT ReceivePaymentToDepositQueryRq (%ReceivePaymentToDepositQueryMacro;)>
+<!ATTLIST ReceivePaymentToDepositQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- Charge Requests -->
+<!ELEMENT ChargeAddRq (ChargeAdd , IncludeRetElement*)>
+<!ATTLIST ChargeAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ChargeModRq (ChargeMod , IncludeRetElement*)>
+<!ATTLIST ChargeModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ChargeQueryRq (%ChargeQueryMacro;)>
+<!ATTLIST ChargeQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- PurchaseOrder Requests -->
+<!ELEMENT PurchaseOrderAddRq (PurchaseOrderAdd , IncludeRetElement*)>
+<!ATTLIST PurchaseOrderAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT PurchaseOrderModRq (PurchaseOrderMod , IncludeRetElement*)>
+<!ATTLIST PurchaseOrderModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT PurchaseOrderQueryRq (%PurchaseOrderQueryMacro;)>
+<!ATTLIST PurchaseOrderQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- Bill Requests -->
+<!ELEMENT BillAddRq (BillAdd , IncludeRetElement*)>
+<!ATTLIST BillAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT BillModRq (BillMod , IncludeRetElement*)>
+<!ATTLIST BillModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT BillQueryRq (%BillQueryMacro;)>
+<!ATTLIST BillQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemReceipt Requests -->
+<!ELEMENT ItemReceiptAddRq (ItemReceiptAdd , IncludeRetElement*)>
+<!ATTLIST ItemReceiptAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemReceiptModRq (ItemReceiptMod , IncludeRetElement*)>
+<!ATTLIST ItemReceiptModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ItemReceiptQueryRq (%ItemReceiptQueryMacro;)>
+<!ATTLIST ItemReceiptQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- VendorCredit Requests -->
+<!ELEMENT VendorCreditAddRq (VendorCreditAdd , IncludeRetElement*)>
+<!ATTLIST VendorCreditAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT VendorCreditQueryRq (%TxnQueryWithLinkedFilterMacro;)>
+<!ATTLIST VendorCreditQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- BillPaymentCheck Requests -->
+<!ELEMENT BillPaymentCheckAddRq (BillPaymentCheckAdd , IncludeRetElement*)>
+<!ATTLIST BillPaymentCheckAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT BillPaymentCheckModRq (BillPaymentCheckMod , IncludeRetElement*)>
+<!ATTLIST BillPaymentCheckModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT BillPaymentCheckQueryRq (%TxnQueryMacro;)>
+<!ATTLIST BillPaymentCheckQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- BillPaymentCreditCard Requests -->
+<!ELEMENT BillPaymentCreditCardAddRq (BillPaymentCreditCardAdd , IncludeRetElement*)>
+<!ATTLIST BillPaymentCreditCardAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT BillPaymentCreditCardQueryRq (%TxnQueryMacro;)>
+<!ATTLIST BillPaymentCreditCardQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- BillToPay Requests -->
+<!ELEMENT BillToPayQueryRq (%BillToPayQueryMacro;)>
+<!ATTLIST BillToPayQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- SalesTaxPaymentCheck Requests -->
+<!ELEMENT SalesTaxPaymentCheckQueryRq (%SalesTaxPaymentCheckQueryMacro;)>
+<!ATTLIST SalesTaxPaymentCheckQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- InventoryAdjustment Requests -->
+<!ELEMENT InventoryAdjustmentAddRq (InventoryAdjustmentAdd , IncludeRetElement*)>
+<!ATTLIST InventoryAdjustmentAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT InventoryAdjustmentQueryRq (%InventoryAdjustmentQueryMacro;)>
+<!ATTLIST InventoryAdjustmentQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- TimeTracking Requests -->
+<!ELEMENT TimeTrackingAddRq (TimeTrackingAdd , IncludeRetElement*)>
+<!ATTLIST TimeTrackingAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT TimeTrackingModRq (TimeTrackingMod , IncludeRetElement*)>
+<!ATTLIST TimeTrackingModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT TimeTrackingQueryRq (%TimeTrackingTxnQueryMacro;)>
+<!ATTLIST TimeTrackingQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- Check Requests -->
+<!ELEMENT CheckAddRq (CheckAdd , IncludeRetElement*)>
+<!ATTLIST CheckAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT CheckModRq (CheckMod , IncludeRetElement*)>
+<!ATTLIST CheckModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT CheckQueryRq (%TxnQueryMacro;)>
+<!ATTLIST CheckQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- CreditCardCharge Requests -->
+<!ELEMENT CreditCardChargeAddRq (CreditCardChargeAdd , IncludeRetElement*)>
+<!ATTLIST CreditCardChargeAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT CreditCardChargeModRq (CreditCardChargeMod , IncludeRetElement*)>
+<!ATTLIST CreditCardChargeModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT CreditCardChargeQueryRq (%TxnQueryMacro;)>
+<!ATTLIST CreditCardChargeQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- CreditCardCredit Requests -->
+<!ELEMENT CreditCardCreditAddRq (CreditCardCreditAdd , IncludeRetElement*)>
+<!ATTLIST CreditCardCreditAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT CreditCardCreditModRq (CreditCardCreditMod , IncludeRetElement*)>
+<!ATTLIST CreditCardCreditModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT CreditCardCreditQueryRq (%TxnQueryMacro;)>
+<!ATTLIST CreditCardCreditQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- JournalEntry Requests -->
+<!ELEMENT JournalEntryAddRq (JournalEntryAdd , IncludeRetElement*)>
+<!ATTLIST JournalEntryAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT JournalEntryModRq (JournalEntryMod , IncludeRetElement*)>
+<!ATTLIST JournalEntryModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT JournalEntryQueryRq (%TxnQueryMacro;)>
+<!ATTLIST JournalEntryQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- Deposit Requests -->
+<!ELEMENT DepositAddRq (DepositAdd , IncludeRetElement*)>
+<!ATTLIST DepositAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT DepositQueryRq (%DepositQueryMacro;)>
+<!ATTLIST DepositQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- List Requests -->
+<!ELEMENT ListDelRq (%ListDelMacro;)>
+<!ATTLIST ListDelRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- ListDeleted Requests -->
+<!ELEMENT ListDeletedQueryRq (%ListDeletedQueryMacro;)>
+<!ATTLIST ListDeletedQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- Txn Requests -->
+<!ELEMENT TxnDelRq (%TxnDelMacro;)>
+<!ATTLIST TxnDelRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT TxnVoidRq (%TxnVoidMacro;)>
+<!ATTLIST TxnVoidRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- TxnDeleted Requests -->
+<!ELEMENT TxnDeletedQueryRq (%TxnDeletedQueryMacro;)>
+<!ATTLIST TxnDeletedQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- ClearedStatus Requests -->
+<!ELEMENT ClearedStatusModRq (ClearedStatusMod)>
+<!ATTLIST ClearedStatusModRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- ListDisplay Requests -->
+<!ELEMENT ListDisplayAddRq (%ListDisplayAddMacro;)>
+<!ATTLIST ListDisplayAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ListDisplayModRq (%ListDisplayModMacro;)>
+<!ATTLIST ListDisplayModRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- TxnDisplay Requests -->
+<!ELEMENT TxnDisplayAddRq (%TxnDisplayAddMacro;)>
+<!ATTLIST TxnDisplayAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT TxnDisplayModRq (%TxnDisplayModMacro;)>
+<!ATTLIST TxnDisplayModRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- DataEventRecoveryInfo Requests -->
+<!ELEMENT DataEventRecoveryInfoDelRq (%SubscriptionQueryMacro;)>
+<!ATTLIST DataEventRecoveryInfoDelRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT DataEventRecoveryInfoQueryRq (%SubscriptionQueryMacro;)>
+<!ATTLIST DataEventRecoveryInfoQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- Transaction Requests -->
+<!ELEMENT TransactionQueryRq (%TransactionQueryMacro;)>
+<!ATTLIST TransactionQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- PriceLevel Requests -->
+<!ELEMENT PriceLevelAddRq (PriceLevelAdd , IncludeRetElement*)>
+<!ATTLIST PriceLevelAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT PriceLevelModRq (PriceLevelMod , IncludeRetElement*)>
+<!ATTLIST PriceLevelModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT PriceLevelQueryRq (%PriceLevelQueryMacro;)>
+<!ATTLIST PriceLevelQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- BillingRate Requests -->
+<!ELEMENT BillingRateAddRq (BillingRateAdd , IncludeRetElement*)>
+<!ATTLIST BillingRateAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT BillingRateQueryRq (%BillingRateQueryMacro;)>
+<!ATTLIST BillingRateQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- BuildAssembly Requests -->
+<!ELEMENT BuildAssemblyAddRq (BuildAssemblyAdd , IncludeRetElement*)>
+<!ATTLIST BuildAssemblyAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT BuildAssemblyModRq (BuildAssemblyMod , IncludeRetElement*)>
+<!ATTLIST BuildAssemblyModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT BuildAssemblyQueryRq (%BuildAssemblyQueryMacro;)>
+<!ATTLIST BuildAssemblyQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemAssembliesCanBuild Requests -->
+<!ELEMENT ItemAssembliesCanBuildQueryRq (%ItemAssembliesCanBuildQueryMacro;)>
+<!ATTLIST ItemAssembliesCanBuildQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- ARRefundCreditCard Requests -->
+<!ELEMENT ARRefundCreditCardAddRq (ARRefundCreditCardAdd , IncludeRetElement*)>
+<!ATTLIST ARRefundCreditCardAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT ARRefundCreditCardQueryRq (%TxnQueryMacro;)>
+<!ATTLIST ARRefundCreditCardQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- VehicleMileage Requests -->
+<!ELEMENT VehicleMileageAddRq (VehicleMileageAdd , IncludeRetElement*)>
+<!ATTLIST VehicleMileageAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT VehicleMileageQueryRq (%VehicleMileageQueryMacro;)>
+<!ATTLIST VehicleMileageQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+          iterator (Start | Continue | Stop)  #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- GeneralSummaryReport Requests -->
+<!ELEMENT GeneralSummaryReportQueryRq (%GeneralSummaryReportQueryMacro;)>
+<!ATTLIST GeneralSummaryReportQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- JobReport Requests -->
+<!ELEMENT JobReportQueryRq (%JobReportQueryMacro;)>
+<!ATTLIST JobReportQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- TimeReport Requests -->
+<!ELEMENT TimeReportQueryRq (%TimeReportQueryMacro;)>
+<!ATTLIST TimeReportQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- AgingReport Requests -->
+<!ELEMENT AgingReportQueryRq (%AgingReportQueryMacro;)>
+<!ATTLIST AgingReportQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- BudgetSummaryReport Requests -->
+<!ELEMENT BudgetSummaryReportQueryRq (%BudgetSummaryReportQueryMacro;)>
+<!ATTLIST BudgetSummaryReportQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- GeneralDetailReport Requests -->
+<!ELEMENT GeneralDetailReportQueryRq (%GeneralDetailReportQueryMacro;)>
+<!ATTLIST GeneralDetailReportQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- CustomDetailReport Requests -->
+<!ELEMENT CustomDetailReportQueryRq (%CustomDetailReportQueryMacro;)>
+<!ATTLIST CustomDetailReportQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- CustomSummaryReport Requests -->
+<!ELEMENT CustomSummaryReportQueryRq (%CustomSummaryReportQueryMacro;)>
+<!ATTLIST CustomSummaryReportQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- PayrollDetailReport Requests -->
+<!ELEMENT PayrollDetailReportQueryRq (%PayrollDetailReportQueryMacro;)>
+<!ATTLIST PayrollDetailReportQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- PayrollSummaryReport Requests -->
+<!ELEMENT PayrollSummaryReportQueryRq (%PayrollSummaryReportQueryMacro;)>
+<!ATTLIST PayrollSummaryReportQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- DataExtDef Requests -->
+<!ELEMENT DataExtDefAddRq (DataExtDefAdd , IncludeRetElement*)>
+<!ATTLIST DataExtDefAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT DataExtDefModRq (DataExtDefMod , IncludeRetElement*)>
+<!ATTLIST DataExtDefModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT DataExtDefDelRq (%DataExtDefDelMacro;)>
+<!ATTLIST DataExtDefDelRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT DataExtDefQueryRq (%DataExtDefQueryMacro;)>
+<!ATTLIST DataExtDefQueryRq 
+          requestID CDATA #IMPLIED
+          metaData (NoMetaData | MetaDataOnly | MetaDataAndResponseData)  "NoMetaData"
+>
+
+<!-- DataExt Requests -->
+<!ELEMENT DataExtAddRq (DataExtAdd)>
+<!ATTLIST DataExtAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT DataExtModRq (DataExtMod)>
+<!ATTLIST DataExtModRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT DataExtDelRq (DataExtDel)>
+<!ATTLIST DataExtDelRq 
+          requestID CDATA #IMPLIED
+>
+
+
+<!-- ============================================================================= -->
+<!--      Response Detail                                                          -->
+<!-- ============================================================================= -->
+
+
+<!-- Host Responses -->
+<!ELEMENT HostQueryRs (HostRet?)>
+<!ATTLIST HostQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- Company Responses -->
+<!ELEMENT CompanyQueryRs (CompanyRet?)>
+<!ATTLIST CompanyQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- CompanyActivity Responses -->
+<!ELEMENT CompanyActivityQueryRs (CompanyActivityRet?)>
+<!ATTLIST CompanyActivityQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- Preferences Responses -->
+<!ELEMENT PreferencesQueryRs (PreferencesRet?)>
+<!ATTLIST PreferencesQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- Account Responses -->
+<!ELEMENT AccountAddRs (AccountRet?)>
+<!ATTLIST AccountAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT AccountModRs (AccountRet?)>
+<!ATTLIST AccountModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT AccountQueryRs (AccountRet*)>
+<!ATTLIST AccountQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- SpecialAccount Responses -->
+<!ELEMENT SpecialAccountAddRs (AccountRet?)>
+<!ATTLIST SpecialAccountAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- Customer Responses -->
+<!ELEMENT CustomerAddRs (CustomerRet?)>
+<!ATTLIST CustomerAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT CustomerModRs (CustomerRet?)>
+<!ATTLIST CustomerModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT CustomerQueryRs (CustomerRet*)>
+<!ATTLIST CustomerQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- Employee Responses -->
+<!ELEMENT EmployeeAddRs (EmployeeRet?)>
+<!ATTLIST EmployeeAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT EmployeeModRs (EmployeeRet?)>
+<!ATTLIST EmployeeModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT EmployeeQueryRs (EmployeeRet*)>
+<!ATTLIST EmployeeQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- OtherName Responses -->
+<!ELEMENT OtherNameAddRs (OtherNameRet?)>
+<!ATTLIST OtherNameAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT OtherNameModRs (OtherNameRet?)>
+<!ATTLIST OtherNameModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT OtherNameQueryRs (OtherNameRet*)>
+<!ATTLIST OtherNameQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- Vendor Responses -->
+<!ELEMENT VendorAddRs (VendorRet?)>
+<!ATTLIST VendorAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT VendorModRs (VendorRet?)>
+<!ATTLIST VendorModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT VendorQueryRs (VendorRet*)>
+<!ATTLIST VendorQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- Entity Responses -->
+<!ELEMENT EntityQueryRs ((CustomerRet | EmployeeRet | OtherNameRet | VendorRet)*)>
+<!ATTLIST EntityQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- StandardTerms Responses -->
+<!ELEMENT StandardTermsAddRs (StandardTermsRet?)>
+<!ATTLIST StandardTermsAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT StandardTermsQueryRs (StandardTermsRet*)>
+<!ATTLIST StandardTermsQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- DateDrivenTerms Responses -->
+<!ELEMENT DateDrivenTermsAddRs (DateDrivenTermsRet?)>
+<!ATTLIST DateDrivenTermsAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT DateDrivenTermsQueryRs (DateDrivenTermsRet*)>
+<!ATTLIST DateDrivenTermsQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- Terms Responses -->
+<!ELEMENT TermsQueryRs ((StandardTermsRet | DateDrivenTermsRet)*)>
+<!ATTLIST TermsQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- Class Responses -->
+<!ELEMENT ClassAddRs (ClassRet?)>
+<!ATTLIST ClassAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ClassQueryRs (ClassRet*)>
+<!ATTLIST ClassQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- SalesRep Responses -->
+<!ELEMENT SalesRepAddRs (SalesRepRet?)>
+<!ATTLIST SalesRepAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT SalesRepModRs (SalesRepRet?)>
+<!ATTLIST SalesRepModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT SalesRepQueryRs (SalesRepRet*)>
+<!ATTLIST SalesRepQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- CustomerType Responses -->
+<!ELEMENT CustomerTypeAddRs (CustomerTypeRet?)>
+<!ATTLIST CustomerTypeAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT CustomerTypeQueryRs (CustomerTypeRet*)>
+<!ATTLIST CustomerTypeQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- VendorType Responses -->
+<!ELEMENT VendorTypeAddRs (VendorTypeRet?)>
+<!ATTLIST VendorTypeAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT VendorTypeQueryRs (VendorTypeRet*)>
+<!ATTLIST VendorTypeQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- JobType Responses -->
+<!ELEMENT JobTypeAddRs (JobTypeRet?)>
+<!ATTLIST JobTypeAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT JobTypeQueryRs (JobTypeRet*)>
+<!ATTLIST JobTypeQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- CustomerMsg Responses -->
+<!ELEMENT CustomerMsgAddRs (CustomerMsgRet?)>
+<!ATTLIST CustomerMsgAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT CustomerMsgQueryRs (CustomerMsgRet*)>
+<!ATTLIST CustomerMsgQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- PaymentMethod Responses -->
+<!ELEMENT PaymentMethodAddRs (PaymentMethodRet?)>
+<!ATTLIST PaymentMethodAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT PaymentMethodQueryRs (PaymentMethodRet*)>
+<!ATTLIST PaymentMethodQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- ShipMethod Responses -->
+<!ELEMENT ShipMethodAddRs (ShipMethodRet?)>
+<!ATTLIST ShipMethodAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ShipMethodQueryRs (ShipMethodRet*)>
+<!ATTLIST ShipMethodQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- SalesTaxCode Responses -->
+<!ELEMENT SalesTaxCodeAddRs (SalesTaxCodeRet?)>
+<!ATTLIST SalesTaxCodeAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT SalesTaxCodeQueryRs (SalesTaxCodeRet*)>
+<!ATTLIST SalesTaxCodeQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- ToDo Responses -->
+<!ELEMENT ToDoAddRs (ToDoRet?)>
+<!ATTLIST ToDoAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ToDoQueryRs (ToDoRet*)>
+<!ATTLIST ToDoQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- Vehicle Responses -->
+<!ELEMENT VehicleAddRs (VehicleRet?)>
+<!ATTLIST VehicleAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT VehicleModRs (VehicleRet?)>
+<!ATTLIST VehicleModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT VehicleQueryRs (VehicleRet*)>
+<!ATTLIST VehicleQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- ItemService Responses -->
+<!ELEMENT ItemServiceAddRs (ItemServiceRet?)>
+<!ATTLIST ItemServiceAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemServiceModRs (ItemServiceRet?)>
+<!ATTLIST ItemServiceModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemServiceQueryRs (ItemServiceRet*)>
+<!ATTLIST ItemServiceQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemNonInventory Responses -->
+<!ELEMENT ItemNonInventoryAddRs (ItemNonInventoryRet?)>
+<!ATTLIST ItemNonInventoryAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemNonInventoryModRs (ItemNonInventoryRet?)>
+<!ATTLIST ItemNonInventoryModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemNonInventoryQueryRs (ItemNonInventoryRet*)>
+<!ATTLIST ItemNonInventoryQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemOtherCharge Responses -->
+<!ELEMENT ItemOtherChargeAddRs (ItemOtherChargeRet?)>
+<!ATTLIST ItemOtherChargeAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemOtherChargeModRs (ItemOtherChargeRet?)>
+<!ATTLIST ItemOtherChargeModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemOtherChargeQueryRs (ItemOtherChargeRet*)>
+<!ATTLIST ItemOtherChargeQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemInventory Responses -->
+<!ELEMENT ItemInventoryAddRs (ItemInventoryRet?)>
+<!ATTLIST ItemInventoryAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemInventoryModRs (ItemInventoryRet?)>
+<!ATTLIST ItemInventoryModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemInventoryQueryRs (ItemInventoryRet*)>
+<!ATTLIST ItemInventoryQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemInventoryAssembly Responses -->
+<!ELEMENT ItemInventoryAssemblyAddRs (ItemInventoryAssemblyRet?)>
+<!ATTLIST ItemInventoryAssemblyAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemInventoryAssemblyModRs (ItemInventoryAssemblyRet?)>
+<!ATTLIST ItemInventoryAssemblyModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemInventoryAssemblyQueryRs (ItemInventoryAssemblyRet*)>
+<!ATTLIST ItemInventoryAssemblyQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemFixedAsset Responses -->
+<!ELEMENT ItemFixedAssetAddRs (ItemFixedAssetRet?)>
+<!ATTLIST ItemFixedAssetAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemFixedAssetModRs (ItemFixedAssetRet?)>
+<!ATTLIST ItemFixedAssetModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemFixedAssetQueryRs (ItemFixedAssetRet*)>
+<!ATTLIST ItemFixedAssetQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemSubtotal Responses -->
+<!ELEMENT ItemSubtotalAddRs (ItemSubtotalRet?)>
+<!ATTLIST ItemSubtotalAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemSubtotalModRs (ItemSubtotalRet?)>
+<!ATTLIST ItemSubtotalModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemSubtotalQueryRs (ItemSubtotalRet*)>
+<!ATTLIST ItemSubtotalQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemDiscount Responses -->
+<!ELEMENT ItemDiscountAddRs (ItemDiscountRet?)>
+<!ATTLIST ItemDiscountAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemDiscountModRs (ItemDiscountRet?)>
+<!ATTLIST ItemDiscountModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemDiscountQueryRs (ItemDiscountRet*)>
+<!ATTLIST ItemDiscountQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemPayment Responses -->
+<!ELEMENT ItemPaymentAddRs (ItemPaymentRet?)>
+<!ATTLIST ItemPaymentAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemPaymentModRs (ItemPaymentRet?)>
+<!ATTLIST ItemPaymentModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemPaymentQueryRs (ItemPaymentRet*)>
+<!ATTLIST ItemPaymentQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemSalesTax Responses -->
+<!ELEMENT ItemSalesTaxAddRs (ItemSalesTaxRet?)>
+<!ATTLIST ItemSalesTaxAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemSalesTaxModRs (ItemSalesTaxRet?)>
+<!ATTLIST ItemSalesTaxModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemSalesTaxQueryRs (ItemSalesTaxRet*)>
+<!ATTLIST ItemSalesTaxQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemSalesTaxGroup Responses -->
+<!ELEMENT ItemSalesTaxGroupAddRs (ItemSalesTaxGroupRet?)>
+<!ATTLIST ItemSalesTaxGroupAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemSalesTaxGroupModRs (ItemSalesTaxGroupRet?)>
+<!ATTLIST ItemSalesTaxGroupModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemSalesTaxGroupQueryRs (ItemSalesTaxGroupRet*)>
+<!ATTLIST ItemSalesTaxGroupQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemGroup Responses -->
+<!ELEMENT ItemGroupAddRs (ItemGroupRet?)>
+<!ATTLIST ItemGroupAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemGroupModRs (ItemGroupRet?)>
+<!ATTLIST ItemGroupModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemGroupQueryRs (ItemGroupRet*)>
+<!ATTLIST ItemGroupQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- SpecialItem Responses -->
+<!ELEMENT SpecialItemAddRs ((ItemOtherChargeRet | ItemSubtotalRet | ItemGroupRet)?)>
+<!ATTLIST SpecialItemAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- Item Responses -->
+<!ELEMENT ItemQueryRs ((ItemServiceRet | ItemNonInventoryRet | ItemOtherChargeRet | ItemInventoryRet | ItemInventoryAssemblyRet | ItemFixedAssetRet | ItemSubtotalRet | ItemDiscountRet | ItemPaymentRet | ItemSalesTaxRet | ItemSalesTaxGroupRet | ItemGroupRet)*)>
+<!ATTLIST ItemQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- PayrollItemWage Responses -->
+<!ELEMENT PayrollItemWageAddRs (PayrollItemWageRet?)>
+<!ATTLIST PayrollItemWageAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT PayrollItemWageQueryRs (PayrollItemWageRet*)>
+<!ATTLIST PayrollItemWageQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- PayrollItemNonWage Responses -->
+<!ELEMENT PayrollItemNonWageQueryRs (PayrollItemNonWageRet*)>
+<!ATTLIST PayrollItemNonWageQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- Template Responses -->
+<!ELEMENT TemplateQueryRs (TemplateRet*)>
+<!ATTLIST TemplateQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- Invoice Responses -->
+<!ELEMENT InvoiceAddRs (InvoiceRet?)>
+<!ATTLIST InvoiceAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT InvoiceModRs (InvoiceRet?)>
+<!ATTLIST InvoiceModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT InvoiceQueryRs (InvoiceRet*)>
+<!ATTLIST InvoiceQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- Estimate Responses -->
+<!ELEMENT EstimateAddRs (EstimateRet?)>
+<!ATTLIST EstimateAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT EstimateModRs (EstimateRet?)>
+<!ATTLIST EstimateModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT EstimateQueryRs (EstimateRet*)>
+<!ATTLIST EstimateQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- SalesOrder Responses -->
+<!ELEMENT SalesOrderAddRs (SalesOrderRet?)>
+<!ATTLIST SalesOrderAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT SalesOrderModRs (SalesOrderRet?)>
+<!ATTLIST SalesOrderModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT SalesOrderQueryRs (SalesOrderRet*)>
+<!ATTLIST SalesOrderQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- SalesReceipt Responses -->
+<!ELEMENT SalesReceiptAddRs (SalesReceiptRet?)>
+<!ATTLIST SalesReceiptAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT SalesReceiptModRs (SalesReceiptRet?)>
+<!ATTLIST SalesReceiptModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT SalesReceiptQueryRs (SalesReceiptRet*)>
+<!ATTLIST SalesReceiptQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- CreditMemo Responses -->
+<!ELEMENT CreditMemoAddRs (CreditMemoRet?)>
+<!ATTLIST CreditMemoAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT CreditMemoModRs (CreditMemoRet?)>
+<!ATTLIST CreditMemoModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT CreditMemoQueryRs (CreditMemoRet*)>
+<!ATTLIST CreditMemoQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ReceivePayment Responses -->
+<!ELEMENT ReceivePaymentAddRs (ReceivePaymentRet?)>
+<!ATTLIST ReceivePaymentAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ReceivePaymentModRs (ReceivePaymentRet?)>
+<!ATTLIST ReceivePaymentModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ReceivePaymentQueryRs (ReceivePaymentRet*)>
+<!ATTLIST ReceivePaymentQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ReceivePaymentToDeposit Responses -->
+<!ELEMENT ReceivePaymentToDepositQueryRs (ReceivePaymentToDepositRet*)>
+<!ATTLIST ReceivePaymentToDepositQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- Charge Responses -->
+<!ELEMENT ChargeAddRs (ChargeRet?)>
+<!ATTLIST ChargeAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ChargeModRs (ChargeRet?)>
+<!ATTLIST ChargeModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ChargeQueryRs (ChargeRet*)>
+<!ATTLIST ChargeQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- PurchaseOrder Responses -->
+<!ELEMENT PurchaseOrderAddRs (PurchaseOrderRet?)>
+<!ATTLIST PurchaseOrderAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT PurchaseOrderModRs (PurchaseOrderRet?)>
+<!ATTLIST PurchaseOrderModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT PurchaseOrderQueryRs (PurchaseOrderRet*)>
+<!ATTLIST PurchaseOrderQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- Bill Responses -->
+<!ELEMENT BillAddRs (BillRet?)>
+<!ATTLIST BillAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT BillModRs (BillRet?)>
+<!ATTLIST BillModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT BillQueryRs (BillRet*)>
+<!ATTLIST BillQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemReceipt Responses -->
+<!ELEMENT ItemReceiptAddRs (ItemReceiptRet?)>
+<!ATTLIST ItemReceiptAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemReceiptModRs (ItemReceiptRet?)>
+<!ATTLIST ItemReceiptModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ItemReceiptQueryRs (ItemReceiptRet*)>
+<!ATTLIST ItemReceiptQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- VendorCredit Responses -->
+<!ELEMENT VendorCreditAddRs (VendorCreditRet?)>
+<!ATTLIST VendorCreditAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT VendorCreditQueryRs (VendorCreditRet*)>
+<!ATTLIST VendorCreditQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- BillPaymentCheck Responses -->
+<!ELEMENT BillPaymentCheckAddRs (BillPaymentCheckRet?)>
+<!ATTLIST BillPaymentCheckAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT BillPaymentCheckModRs (BillPaymentCheckRet?)>
+<!ATTLIST BillPaymentCheckModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT BillPaymentCheckQueryRs (BillPaymentCheckRet*)>
+<!ATTLIST BillPaymentCheckQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- BillPaymentCreditCard Responses -->
+<!ELEMENT BillPaymentCreditCardAddRs (BillPaymentCreditCardRet?)>
+<!ATTLIST BillPaymentCreditCardAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT BillPaymentCreditCardQueryRs (BillPaymentCreditCardRet*)>
+<!ATTLIST BillPaymentCreditCardQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- BillToPay Responses -->
+<!ELEMENT BillToPayQueryRs (BillToPayRet*)>
+<!ATTLIST BillToPayQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- SalesTaxPaymentCheck Responses -->
+<!ELEMENT SalesTaxPaymentCheckQueryRs (SalesTaxPaymentCheckRet*)>
+<!ATTLIST SalesTaxPaymentCheckQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- InventoryAdjustment Responses -->
+<!ELEMENT InventoryAdjustmentAddRs (InventoryAdjustmentRet?)>
+<!ATTLIST InventoryAdjustmentAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT InventoryAdjustmentQueryRs (InventoryAdjustmentRet*)>
+<!ATTLIST InventoryAdjustmentQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- TimeTracking Responses -->
+<!ELEMENT TimeTrackingAddRs (TimeTrackingRet?)>
+<!ATTLIST TimeTrackingAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT TimeTrackingModRs (TimeTrackingRet?)>
+<!ATTLIST TimeTrackingModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT TimeTrackingQueryRs (TimeTrackingRet*)>
+<!ATTLIST TimeTrackingQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- Check Responses -->
+<!ELEMENT CheckAddRs (CheckRet?)>
+<!ATTLIST CheckAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT CheckModRs (CheckRet?)>
+<!ATTLIST CheckModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT CheckQueryRs (CheckRet*)>
+<!ATTLIST CheckQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- CreditCardCharge Responses -->
+<!ELEMENT CreditCardChargeAddRs (CreditCardChargeRet?)>
+<!ATTLIST CreditCardChargeAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT CreditCardChargeModRs (CreditCardChargeRet?)>
+<!ATTLIST CreditCardChargeModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT CreditCardChargeQueryRs (CreditCardChargeRet*)>
+<!ATTLIST CreditCardChargeQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- CreditCardCredit Responses -->
+<!ELEMENT CreditCardCreditAddRs (CreditCardCreditRet?)>
+<!ATTLIST CreditCardCreditAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT CreditCardCreditModRs (CreditCardCreditRet?)>
+<!ATTLIST CreditCardCreditModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT CreditCardCreditQueryRs (CreditCardCreditRet*)>
+<!ATTLIST CreditCardCreditQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- JournalEntry Responses -->
+<!ELEMENT JournalEntryAddRs (JournalEntryRet?)>
+<!ATTLIST JournalEntryAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT JournalEntryModRs (JournalEntryRet?)>
+<!ATTLIST JournalEntryModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT JournalEntryQueryRs (JournalEntryRet*)>
+<!ATTLIST JournalEntryQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- Deposit Responses -->
+<!ELEMENT DepositAddRs (DepositRet?)>
+<!ATTLIST DepositAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT DepositQueryRs (DepositRet*)>
+<!ATTLIST DepositQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- List Responses -->
+<!ELEMENT ListDelRs (%ListDelRetMacro;)>
+<!ATTLIST ListDelRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- ListDeleted Responses -->
+<!ELEMENT ListDeletedQueryRs (ListDeletedRet*)>
+<!ATTLIST ListDeletedQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- Txn Responses -->
+<!ELEMENT TxnDelRs (%TxnDelRetMacro;)>
+<!ATTLIST TxnDelRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT TxnVoidRs (%TxnVoidRetMacro;)>
+<!ATTLIST TxnVoidRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- TxnDeleted Responses -->
+<!ELEMENT TxnDeletedQueryRs (TxnDeletedRet*)>
+<!ATTLIST TxnDeletedQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- ClearedStatus Responses -->
+<!ELEMENT ClearedStatusModRs EMPTY >
+<!ATTLIST ClearedStatusModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- ListDisplay Responses -->
+<!ELEMENT ListDisplayAddRs EMPTY >
+<!ATTLIST ListDisplayAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ListDisplayModRs EMPTY >
+<!ATTLIST ListDisplayModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- TxnDisplay Responses -->
+<!ELEMENT TxnDisplayAddRs EMPTY >
+<!ATTLIST TxnDisplayAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT TxnDisplayModRs EMPTY >
+<!ATTLIST TxnDisplayModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- DataEventRecoveryInfo Responses -->
+<!ELEMENT DataEventRecoveryInfoDelRs EMPTY >
+<!ATTLIST DataEventRecoveryInfoDelRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT DataEventRecoveryInfoQueryRs (DataEventRecoveryInfoRet?)>
+<!ATTLIST DataEventRecoveryInfoQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- Transaction Responses -->
+<!ELEMENT TransactionQueryRs (TransactionRet*)>
+<!ATTLIST TransactionQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- PriceLevel Responses -->
+<!ELEMENT PriceLevelAddRs (PriceLevelRet?)>
+<!ATTLIST PriceLevelAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT PriceLevelModRs (PriceLevelRet?)>
+<!ATTLIST PriceLevelModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT PriceLevelQueryRs (PriceLevelRet*)>
+<!ATTLIST PriceLevelQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- BillingRate Responses -->
+<!ELEMENT BillingRateAddRs (BillingRateRet?)>
+<!ATTLIST BillingRateAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT BillingRateQueryRs (BillingRateRet*)>
+<!ATTLIST BillingRateQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- BuildAssembly Responses -->
+<!ELEMENT BuildAssemblyAddRs (BuildAssemblyRet?)>
+<!ATTLIST BuildAssemblyAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT BuildAssemblyModRs (BuildAssemblyRet?)>
+<!ATTLIST BuildAssemblyModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT BuildAssemblyQueryRs (BuildAssemblyRet*)>
+<!ATTLIST BuildAssemblyQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- ItemAssembliesCanBuild Responses -->
+<!ELEMENT ItemAssembliesCanBuildQueryRs (ItemAssembliesCanBuildRet?)>
+<!ATTLIST ItemAssembliesCanBuildQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- ARRefundCreditCard Responses -->
+<!ELEMENT ARRefundCreditCardAddRs (ARRefundCreditCardRet?)>
+<!ATTLIST ARRefundCreditCardAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT ARRefundCreditCardQueryRs (ARRefundCreditCardRet*)>
+<!ATTLIST ARRefundCreditCardQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- VehicleMileage Responses -->
+<!ELEMENT VehicleMileageAddRs (VehicleMileageRet?)>
+<!ATTLIST VehicleMileageAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT VehicleMileageQueryRs (VehicleMileageRet*)>
+<!ATTLIST VehicleMileageQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+          iteratorRemainingCount CDATA #IMPLIED
+          iteratorID CDATA #IMPLIED
+>
+
+<!-- GeneralSummaryReport Responses -->
+<!ELEMENT GeneralSummaryReportQueryRs (ReportRet?)>
+<!ATTLIST GeneralSummaryReportQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- JobReport Responses -->
+<!ELEMENT JobReportQueryRs (ReportRet?)>
+<!ATTLIST JobReportQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- TimeReport Responses -->
+<!ELEMENT TimeReportQueryRs (ReportRet?)>
+<!ATTLIST TimeReportQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- AgingReport Responses -->
+<!ELEMENT AgingReportQueryRs (ReportRet?)>
+<!ATTLIST AgingReportQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- BudgetSummaryReport Responses -->
+<!ELEMENT BudgetSummaryReportQueryRs (ReportRet?)>
+<!ATTLIST BudgetSummaryReportQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- GeneralDetailReport Responses -->
+<!ELEMENT GeneralDetailReportQueryRs (ReportRet?)>
+<!ATTLIST GeneralDetailReportQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- CustomDetailReport Responses -->
+<!ELEMENT CustomDetailReportQueryRs (ReportRet?)>
+<!ATTLIST CustomDetailReportQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- CustomSummaryReport Responses -->
+<!ELEMENT CustomSummaryReportQueryRs (ReportRet?)>
+<!ATTLIST CustomSummaryReportQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- PayrollDetailReport Responses -->
+<!ELEMENT PayrollDetailReportQueryRs (ReportRet?)>
+<!ATTLIST PayrollDetailReportQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- PayrollSummaryReport Responses -->
+<!ELEMENT PayrollSummaryReportQueryRs (ReportRet?)>
+<!ATTLIST PayrollSummaryReportQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- DataExtDef Responses -->
+<!ELEMENT DataExtDefAddRs (DataExtDefRet?)>
+<!ATTLIST DataExtDefAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT DataExtDefModRs (DataExtDefRet?)>
+<!ATTLIST DataExtDefModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT DataExtDefDelRs (DataExtDefDelRet?)>
+<!ATTLIST DataExtDefDelRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT DataExtDefQueryRs (DataExtDefRet*)>
+<!ATTLIST DataExtDefQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+          retCount CDATA #IMPLIED
+>
+
+<!-- DataExt Responses -->
+<!ELEMENT DataExtAddRs (DataExtRet?)>
+<!ATTLIST DataExtAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT DataExtModRs (DataExtRet?)>
+<!ATTLIST DataExtModRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT DataExtDelRs (DataExtDelRet?)>
+<!ATTLIST DataExtDelRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+
+<!-- ============================================================================= -->
+<!--      Request Detail                                                           -->
+<!-- ============================================================================= -->
+
+
+<!-- DataEventSubscription Requests -->
+<!ELEMENT DataEventSubscriptionAddRq (DataEventSubscriptionAdd)>
+<!ATTLIST DataEventSubscriptionAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT DataEventSubscriptionQueryRq (%SubscriptionQueryMacro;)>
+<!ATTLIST DataEventSubscriptionQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- UIEventSubscription Requests -->
+<!ELEMENT UIEventSubscriptionAddRq (UIEventSubscriptionAdd)>
+<!ATTLIST UIEventSubscriptionAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT UIEventSubscriptionQueryRq (%SubscriptionQueryMacro;)>
+<!ATTLIST UIEventSubscriptionQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- UIExtensionSubscription Requests -->
+<!ELEMENT UIExtensionSubscriptionAddRq (UIExtensionSubscriptionAdd)>
+<!ATTLIST UIExtensionSubscriptionAddRq 
+          requestID CDATA #IMPLIED
+>
+<!ELEMENT UIExtensionSubscriptionQueryRq (%SubscriptionQueryMacro;)>
+<!ATTLIST UIExtensionSubscriptionQueryRq 
+          requestID CDATA #IMPLIED
+>
+
+<!-- Subscription Requests -->
+<!ELEMENT SubscriptionDelRq (%SubscriptionDelMacro;)>
+<!ATTLIST SubscriptionDelRq 
+          requestID CDATA #IMPLIED
+>
+
+
+<!-- ============================================================================= -->
+<!--      Response Detail                                                          -->
+<!-- ============================================================================= -->
+
+
+<!-- DataEventSubscription Responses -->
+<!ELEMENT DataEventSubscriptionAddRs (DataEventSubscriptionRet?)>
+<!ATTLIST DataEventSubscriptionAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT DataEventSubscriptionQueryRs (DataEventSubscriptionRet?)>
+<!ATTLIST DataEventSubscriptionQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- UIEventSubscription Responses -->
+<!ELEMENT UIEventSubscriptionAddRs (UIEventSubscriptionRet?)>
+<!ATTLIST UIEventSubscriptionAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT UIEventSubscriptionQueryRs (UIEventSubscriptionRet?)>
+<!ATTLIST UIEventSubscriptionQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- UIExtensionSubscription Responses -->
+<!ELEMENT UIExtensionSubscriptionAddRs (UIExtensionSubscriptionRet?)>
+<!ATTLIST UIExtensionSubscriptionAddRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+<!ELEMENT UIExtensionSubscriptionQueryRs (UIExtensionSubscriptionRet?)>
+<!ATTLIST UIExtensionSubscriptionQueryRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+<!-- Subscription Responses -->
+<!ELEMENT SubscriptionDelRs EMPTY >
+<!ATTLIST SubscriptionDelRs 
+          requestID CDATA #IMPLIED
+          statusCode CDATA #REQUIRED
+          statusSeverity CDATA #REQUIRED
+          statusMessage CDATA #IMPLIED
+>
+
+
+<!-- Top-level -->
+<!ENTITY % QBXMLRqMsgSets
+	"SignonMsgsRq?,
+	 (QBXMLMsgsRq? | 
+	 QBXMLSubscriptionMsgsRq?)">
+
+<!ENTITY % QBXMLRsMsgSets
+	"SignonMsgsRs?,
+	 (QBXMLMsgsRs? | 
+	 QBXMLSubscriptionMsgsRs?)">
+
+<!ELEMENT QBXML ((%QBXMLRqMsgSets;) | (%QBXMLRsMsgSets;))>

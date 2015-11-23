@@ -1,6 +1,7 @@
 require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
 require 'rubygems'
+require 'colorize'
 require 'bundler/setup'
 require 'i18n'
 

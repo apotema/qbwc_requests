@@ -6,6 +6,8 @@ With qbwc_requests you have an easy way to create Qbxml requests.
 [![Code Climate](https://codeclimate.com/github/apotema/qbwc_requests/badges/gpa.svg)](https://codeclimate.com/github/apotema/qbwc_requests)
 [![Test Coverage](https://codeclimate.com/github/apotema/qbwc_requests/badges/coverage.svg)](https://codeclimate.com/github/apotema/qbwc_requests/coverage)
 
+[![Code Climate](https://codeclimate.com/github/apotema/qbwc_requests/badges/gpa.svg)](https://codeclimate.com/github/apotema/qbwc_requests)
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -31,7 +33,7 @@ Or install it yourself as:
   result
 
   ```xml
-    <?xml version='1.0' encoding='utf-8'?>
+    <?xml version="1.0" encoding="ISO-8859-1"?>
     <?qbxml version="7.0"?>
     <QBXML>
       <QBXMLMsgsRq onError="stopOnError">
@@ -53,7 +55,7 @@ That will create an Account query for the qbxml version 7.0
   result  
 
   ```xml
-  <?xml version='1.0' encoding='utf-8'?>
+  <?xml version="1.0" encoding="ISO-8859-1"?>
   <?qbxml version="7.0"?>
   <QBXML>
     <QBXMLMsgsRq onError="stopOnError">
