@@ -6,48 +6,44 @@ require "qbwc_requests/base"
 require "qbwc_requests/factory"
 require "qbxml"
 
-require "account_qbxml"
-require "customer_qbxml"
-require "bill_qbxml"
-require "customer_qbxml"
-require "estimate_qbxml"
-require "general_detail_report_qbxml"
-require "invoice_qbxml"
-require "item_discount_qbxml"
-require "item_group_qbxml"
-require "item_non_inventory_qbxml"
-require "item_other_charge_qbxml"
-require "item_payment_qbxml"
-require "item_qbxml"
-require "item_service_qbxml"
-require "item_subtotal_qbxml"
-require "job_report_qbxml"
-require "purchase_order_qbxml"
-require "vendor_qbxml"
+qbxml_models = [
+  "account",
+  "customer",
+  "bill",
+  "estimate",
+  "general_detail_report",
+  "invoice",
+  "item_discount",
+  "item_group",
+  "item_non_inventory",
+  "item_other_charge",
+  "item_payment",
+  "item",
+  "item_service",
+  "item_subtotal",
+  "job_report",
+  "purchase_order",
+  "vendor"
+]
+
+def camelize name
+  name.split('_').collect(&:capitalize).join
+end
 
 dir_name = File.dirname(__FILE__)
 
-Dir["#{dir_name}/qbwc_requests/account/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/bill/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/customer/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/estimate/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/general_detail_report/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/invoice/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/item/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/item_discount/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/item_group/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/item_non_inventory/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/item_other_charge/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/item_payment/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/item_service/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/item_subtotal/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/purchase_order/**/*.rb"].each {|f| require f}
-Dir["#{dir_name}/qbwc_requests/vendor/**/*.rb"].each {|f| require f}
+for qbxml_model in qbxml_models do
+  Object.const_set(
+    camelize(qbxml_model+"_qbxml"), 
+    Class.new { extend QbwcRequests::Factory }
+  )
+  Dir["#{dir_name}/qbwc_requests/#{qbxml_model}/**/*.rb"].each {|f| require f}
+end
 
 Dir["#{dir_name}/qbwc_requests/sub_models/*.rb"].each {|f| require f}
 
 module QbwcRequests
-  # Your code goes here...
+
   @@QBXML_VERSION = "07"
 
   def self.QBXML_VERSION
