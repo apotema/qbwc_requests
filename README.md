@@ -22,10 +22,10 @@ Or install it yourself as:
 
 ## Usage
 
-* Query
+### Query
 
   ```ruby
-    AccountQbxml::Query.factory({max_returned: 2000}).to_xml("request_id")
+  AccountQbxml::Query.factory({max_returned: 2000}).to_xml("request_id")
   ```
 
   result
@@ -44,10 +44,10 @@ Or install it yourself as:
 
 That will create an Account query for the qbxml version 7.0
 
-* Add
+### Add
 
   ```ruby
-    AccountQbxml::Add.factory(name: 'Some Account name').to_xml("2")
+  AccountQbxml::Add.factory(name: 'Some Account name').to_xml("2")
   ```
 
   Result  
@@ -72,14 +72,14 @@ That will create an Account query for the qbxml version 7.0
 
   You can also call <tt>valid?</tt> on the object to check if the object is valid.
 
-* Delete
+### Delete
 
     Not Implemented
 
-* Update
+### Update
 
   ```ruby
-    VendorQbxml::Mod.factory({name: "Vendor Name"}).to_xml("request_id")
+  VendorQbxml::Mod.factory({name: "Vendor Name"}).to_xml("request_id")
   ```
 
   ```xml
@@ -96,6 +96,20 @@ That will create an Account query for the qbxml version 7.0
   </QBXML>
   ```
 
+### Change Version
+
+  You can use diferent versions of versions of the QBXML in two ways.
+
+  - Extra Parameter
+  ```ruby
+  VendorQbxml::Mod.factory({name: "Vendor Name"}, "13").to_xml("request_id")
+  ```
+
+  - General Configuration
+  ```ruby
+  QbwcRequests.QBXML_VERSION = "13"
+  VendorQbxml::Mod.factory({name: "Vendor Name"}).to_xml("request_id")
+  ```
 
 Right now we just have the following models on this gem.
 
