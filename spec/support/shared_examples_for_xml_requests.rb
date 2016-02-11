@@ -16,7 +16,8 @@ RSpec.shared_examples 'queryable' do |version|
   end
 
   it "creates a valid #{described_class.name}QueryRq xml" do    
-    expect(described_class.factory({max_returned: 2000},version||"07").to_xml("request_id")).to be_xml_equal_to xml
+    expect(described_class.factory({max_returned: 2000},version||"07")
+      .to_xml("request_id")).to be_xml_equal_to xml
   end
 
 end
