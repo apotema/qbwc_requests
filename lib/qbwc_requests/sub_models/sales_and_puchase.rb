@@ -1,6 +1,6 @@
 module QbwcRequests
   module SubModels
-    class SalesOrPurchase < QbwcRequests::Base
+    class SalesAndPurchase < QbwcRequests::Base
       field  :sales_desc
       field  :sales_price
       ref_to :income_account, 159
