@@ -22,6 +22,7 @@ module QbwcRequests
         field :notes
         field :is_vendor_eligible_for_1099
         field :open_balance
+        ref_to :vendor_type, 159
 
         validates :name, presence: true, length: { maximum: 41 }
         validates :company_name, length: { maximum: 41 }
