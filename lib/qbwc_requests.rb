@@ -23,7 +23,8 @@ qbxml_models = [
   "item_subtotal",
   "job_report",
   "purchase_order",
-  "vendor"
+  "vendor",
+  "vendor_type"
 ]
 
 def camelize name
