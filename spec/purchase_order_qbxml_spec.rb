@@ -38,7 +38,7 @@ RSpec.describe PurchaseOrderQbxml do
 
   describe "update" do
 
-    let(:purchase_order){ PurchaseOrderQbxml::Mod.factory(vendor_ref: {full_name: "Vendor full name"}, purchase_order_line_mod: {item_ref: {full_name: 'Some item ref full name'}}) }
+    let(:purchase_order){ PurchaseOrderQbxml::Mod.factory(txn_id: 'txn_id', edit_sequence: 'edit_sequence', vendor_ref: {full_name: "Vendor full name"}, purchase_order_line_mod: {item_ref: {full_name: 'Some item ref full name'}}) }
 
     it "should create an add purchase order xml" do
       xml = <<-XML
@@ -48,6 +48,8 @@ RSpec.describe PurchaseOrderQbxml do
           <QBXMLMsgsRq onError="stopOnError">
             <PurchaseOrderModRq requestID="request_id">
               <PurchaseOrderMod>
+                <TxnID>txn_id</TxnID>
+                <EditSequence>edit_sequence</EditSequence>
                 <VendorRef>
                   <FullName>Vendor full name</FullName>
                 </VendorRef>
