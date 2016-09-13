@@ -4,7 +4,6 @@ require "qbwc_requests/ordered_fields"
 require "qbwc_requests/xml_actions"
 require "qbwc_requests/base"
 require "qbwc_requests/factory"
-require "qbxml"
 
 qbxml_models = [
   "account",
