@@ -23,6 +23,8 @@ qbxml_models = [
   "item_subtotal",
   "job_report",
   "purchase_order",
+  "ship_method",
+  "terms",
   "vendor",
   "vendor_type"
 ]
