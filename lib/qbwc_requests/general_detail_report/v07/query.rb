@@ -4,6 +4,7 @@ module QbwcRequests
       class Query < QbwcRequests::Base
         field :max_returned
         field :general_detail_report_type
+        field :report_date_macro
         field :report_entity_filter
         field :report_account_filter
         field :report_txn_type_filter
