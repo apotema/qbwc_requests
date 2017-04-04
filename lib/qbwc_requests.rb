@@ -12,6 +12,7 @@ qbxml_models = [
   "bill",
   "estimate",
   "general_detail_report",
+  "custom_detail_report",
   "invoice",
   "item_discount",
   "item_group",
