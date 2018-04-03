@@ -8,7 +8,16 @@ describe BillQbxml do
 
   describe "add" do
 
-    let(:bill){ BillQbxml::Add.factory(vendor_ref: {list_id: 10}) }
+    let(:bill) do
+      BillQbxml::Add.factory(
+        vendor_ref: {list_id: 10},
+        memo: 'Hello',
+        txn_date: '01/02/2018',
+        due_date: '01/03/2018',
+        ref_number: '305',
+        expense_line_add: {account_ref: {full_name: 'Some item ref full name'}}
+      )
+    end
 
     it "should create an add bill xml" do
       xml = <<-XML
@@ -21,6 +30,15 @@ describe BillQbxml do
                 <VendorRef>
                   <ListID>10</ListID>
                 </VendorRef>
+                <Memo>Hello</Memo>
+                <TxnDate>01/02/2018</TxnDate>
+                <RefNumber>305</RefNumber>
+                <DueDate>01/03/2018</DueDate>
+                <ExpenseLineAdd>
+                  <AccountRef>
+                    <FullName>Some item ref full name</FullName>
+                  </AccountRef>
+                </ExpenseLineAdd>
               </BillAdd>
             </BillAddRq>
           </QBXMLMsgsRq>
