@@ -9,6 +9,7 @@ module QbwcRequests
         field :ref_number
         field :due_date
         field :expense_line_add
+        field :item_line_add
 
         validates :memo, length: { maximum: 4095 }
         validates :ref_number, length: { maximum: 11 }
