@@ -4,10 +4,10 @@ module QbwcRequests
       class Add < QbwcRequests::Base
 
         ref_to :vendor, 41
-        field :memo
         field :txn_date
-        field :ref_number
         field :due_date
+        field :ref_number
+        field :memo
         field :expense_line_add
         field :item_line_add
 

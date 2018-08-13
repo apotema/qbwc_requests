@@ -58,10 +58,10 @@ describe BillQbxml do
                 <VendorRef>
                   <ListID>10</ListID>
                 </VendorRef>
-                <Memo>Hello</Memo>
                 <TxnDate>01/02/2018</TxnDate>
-                <RefNumber>305</RefNumber>
                 <DueDate>01/03/2018</DueDate>
+                <RefNumber>305</RefNumber>
+                <Memo>Hello</Memo>
                 <ExpenseLineAdd>
                   <AccountRef>
                     <FullName>Some item ref full name</FullName>
