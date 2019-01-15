@@ -12,7 +12,7 @@ module QbwcRequests
         field :item_line_add
 
         validates :memo, length: { maximum: 4095 }
-        validates :ref_number, length: { maximum: 11 }
+        validates :ref_number, length: { maximum: 20 }
       end
     end
   end
