@@ -3,7 +3,7 @@ module QbwcRequests
     module V07
       class Query < QbwcRequests::Base
         field :max_returned
-        field :from_modified_date
+        field :modified_date_range_filter
         field :include_line_items
       end
     end
