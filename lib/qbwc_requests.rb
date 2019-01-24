@@ -10,6 +10,8 @@ qbxml_models = [
   "account",
   "customer",
   "bill",
+  "bill_payment_check",
+  "bill_payment_credit_card",
   "estimate",
   "general_detail_report",
   "custom_detail_report",
@@ -38,7 +40,7 @@ dir_name = File.dirname(__FILE__)
 
 for qbxml_model in qbxml_models do
   Object.const_set(
-    camelize(qbxml_model+"_qbxml"), 
+    camelize(qbxml_model+"_qbxml"),
     Class.new { extend QbwcRequests::Factory }
   )
   Dir["#{dir_name}/qbwc_requests/#{qbxml_model}/**/*.rb"].each {|f| require f}
@@ -51,7 +53,7 @@ module QbwcRequests
   @@QBXML_VERSION = "07"
 
   def self.QBXML_VERSION
-    @@QBXML_VERSION    
+    @@QBXML_VERSION
   end
 
   def self.QBXML_VERSION= version
